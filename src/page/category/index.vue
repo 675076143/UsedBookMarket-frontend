@@ -12,7 +12,7 @@
             <van-badge v-for="type in types" :title="type" :key="type" @click="onClick(type)"/>
         </van-badge-group>
         <div class="content" :style="'width:'+fullWidth+'px;height:'+(fullHeight-7)+'px'" >
-            <img src="https://img11.360buyimg.com/mcoss/jfs/t1/1072/23/3672/95463/5b9a0813E175891fa/e38fc2f7c2ddfec2.jpg" />
+            <img :src='banner' />
             <div class="category-div">
                 <h4>{{currentType}}</h4>
                 <ul >
@@ -33,6 +33,7 @@
 <script>
 import { Search } from "vant";
 import {reqBooksByCategory, reqCategories, reqProducts} from "../../api";
+import  banner from '../../assets/images/banner.jpg'
 
 export default {
   name: "userindex",
@@ -54,6 +55,7 @@ export default {
   },
   data() {
     return {
+      banner,
       value: "",
       activeKey: 0,
       fullHeight: document.documentElement.clientHeight - 93,
@@ -69,10 +71,13 @@ export default {
     },
     async onClick(key) {
       this.activeKey = key;
-      console.log(key);
-      if (key==='All') key=null
-      this.currentType = key
-      const result = await reqBooksByCategory(key,this)
+      this.currentType = key;
+      let result;
+      if (key==='All'){
+        result = await reqBooksByCategory(null,this)
+      }else {
+        result = await reqBooksByCategory(key,this)
+      }
       if(result.code==='200'){
         this.bookList = result.data
       }
