@@ -18,7 +18,7 @@
                 <ul >
                     <li v-for="book in bookList">
                       <router-link to="/search?keyword=xxxx">
-                        <img :src="book.bookImg">
+                        <img :src="BASE_IMG_URL+book.bookImg">
                         <span>{{book.bookName}}</span>
                       </router-link>
                     </li>
@@ -34,20 +34,26 @@
 import { Search } from "vant";
 import {reqBooksByCategory, reqCategories, reqProducts} from "../../api";
 import  banner from '../../assets/images/banner.jpg'
-
+import {BASE_IMG_URL} from "../../utils/constants";
 export default {
   name: "userindex",
   components: {
     [Search.name]: Search
   },
+  /**
+   * 创建页面
+   * @returns {Promise<void>}
+   */
   async created() {
     console.log('created!')
+    //获取所有分类信息
     const result = await reqCategories(this)
     if(result.code==='200'){
       for(let item of result.data){
         this.types.push(item)
       }
     }
+    //获取所有书籍
     const resultBooks = await reqBooksByCategory(null,this)
     if(resultBooks.code==='200'){
       this.bookList = resultBooks.data
@@ -56,6 +62,7 @@ export default {
   data() {
     return {
       banner,
+      BASE_IMG_URL,
       value: "",
       activeKey: 0,
       fullHeight: document.documentElement.clientHeight - 93,
