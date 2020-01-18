@@ -8,75 +8,112 @@
       </div>
       <div class="user-profile-username">
         <a href="/#/user/info">
-          <span class="m-nick">{{data.UserName}}</span>
+          <span class="m-nick">{{data.user.userName}}</span>
         </a>
       </div>
     </div>
+    <div v-if="data.logged">
+      <van-cell-group class="user-group">
+        <van-cell title="出售" value="查看全部订单" is-link  to="/user/order"/>
 
-    <van-cell-group class="user-group">
-      <van-cell title="我的订单" value="查看全部订单" is-link  to="/user/order"/>
-      <van-row class="user-links">
-        <router-link  to="/user/order/1">
-          <van-col span="6">
-            <van-icon name="pending-payment">
-              <van-info :info="data.UnPayTotal"  />
-            </van-icon>
-            <div>待付款</div>
-          </van-col>
-        </router-link>
-        <router-link  to="/user/order/2">
-          <van-col span="6">
-            <van-icon name="logistics">
-              <van-info :info="data.UnRecieveTotal"   />
-            </van-icon>
-            <div>待发货</div>
-          </van-col>
-        </router-link>
-        <router-link  to="/user/order/2">
-          <van-col span="6">
-            <van-icon name="point-gift">
-            </van-icon>
-            <div>已完成</div>
-          </van-col>
-        </router-link>
-<!--        <router-link  to="/user/aftersale">-->
-<!--          <van-col span="6">-->
-<!--            <van-icon name="after-sale" >-->
-<!--              <van-info :info="data.AfterSaleTotal"   />-->
-<!--            </van-icon>-->
-<!--            <div>售后</div>-->
-<!--          </van-col>-->
-<!--        </router-link>-->
-      </van-row>
-    </van-cell-group>
+        <van-row class="user-links">
+          <router-link  to="/addSelling">
+            <van-col span="6">
+              <van-icon name="add-o" />
+              <div>卖书</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/order/1">
+            <van-col span="6">
+              <van-icon name="balance-list-o" />
+              <div>我发布的</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/order/2">
+            <van-col span="6">
+              <van-icon name="todo-list-o" />
+              <div>我卖出的</div>
+            </van-col>
+          </router-link>
+          <!--        <router-link  to="/user/aftersale">-->
+          <!--          <van-col span="6">-->
+          <!--            <van-icon name="after-sale" >-->
+          <!--              <van-info :info="data.AfterSaleTotal"   />-->
+          <!--            </van-icon>-->
+          <!--            <div>售后</div>-->
+          <!--          </van-col>-->
+          <!--        </router-link>-->
+        </van-row>
+      </van-cell-group>
+      <van-cell-group class="user-group">
+        <van-cell title="我的订单" value="查看全部订单" is-link  to="/user/order"/>
+        <van-row class="user-links">
+          <router-link  to="/user/order/1">
+            <van-col span="6">
+              <van-icon name="pending-payment">
+                <van-info :info="data.UnPayTotal"  />
+              </van-icon>
+              <div>待付款</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/order/2">
+            <van-col span="6">
+              <van-icon name="logistics">
+                <van-info :info="data.UnRecieveTotal"   />
+              </van-icon>
+              <div>待发货</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/order/2">
+            <van-col span="6">
+              <van-icon name="point-gift">
+              </van-icon>
+              <div>已完成</div>
+            </van-col>
+          </router-link>
+          <!--        <router-link  to="/user/aftersale">-->
+          <!--          <van-col span="6">-->
+          <!--            <van-icon name="after-sale" >-->
+          <!--              <van-info :info="data.AfterSaleTotal"   />-->
+          <!--            </van-icon>-->
+          <!--            <div>售后</div>-->
+          <!--          </van-col>-->
+          <!--        </router-link>-->
+        </van-row>
+      </van-cell-group>
+      <van-cell-group class="user-group">
+        <van-cell title="我的服务" />
+        <van-row class="user-links">
+          <!--        <router-link  to="/user/coupon">-->
+          <!--          <van-col span="6">-->
+          <!--            <van-icon name="coupon" />-->
+          <!--            <div>我的优惠券</div>-->
+          <!--          </van-col>-->
+          <!--        </router-link>-->
+          <router-link  to="/user/favorite">
+            <van-col span="6">
+              <van-icon name="like-o" />
+              <div>我的收藏</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/address">
+            <van-col span="6" >
+              <van-icon name="location"/>
+              <div>收货地址</div>
+            </van-col>
+          </router-link>
+        </van-row>
+      </van-cell-group>
+      <van-cell-group>
+        <van-cell title="切换账号" is-link to="/login" />
+      </van-cell-group>
 
-    <van-cell-group class="user-group">
-      <van-cell title="我的服务" />
-      <van-row class="user-links">
-<!--        <router-link  to="/user/coupon">-->
-<!--          <van-col span="6">-->
-<!--            <van-icon name="coupon" />-->
-<!--            <div>我的优惠券</div>-->
-<!--          </van-col>-->
-<!--        </router-link>-->
-        <router-link  to="/user/favorite">
-          <van-col span="6">
-            <van-icon name="like-o" />
-            <div>我的收藏</div>
-          </van-col>
-        </router-link>
-        <router-link  to="/user/address">
-          <van-col span="6" >
-            <van-icon name="location"/>
-            <div>收货地址</div>
-          </van-col>
-        </router-link>
-      </van-row>
-    </van-cell-group>
+    </div>
+    <div v-else>
+      <van-cell title="login" is-link to="/login" />
+    </div>
 
-    <van-cell-group>
-<!--      <van-cell title="切换账号" is-link to="/login" />-->
-    </van-cell-group>
+
     <navigate />
   </div>
 </template>
@@ -84,21 +121,39 @@
 <script>
 import {reqLogin} from "../../api";
 import  avatar from '../../assets/images/user_48px.png';
-
+import store from '../../store/index'
+import {BASE_IMG_URL} from "../../utils/constants";
 
 export default {
   data(){
     return{
       data:{
-        Avatar:avatar,
-        UserName:'游客'
+        BASE_IMG_URL,
+        logged:false,
+        user:{}
       }
     }
   },
   components: {
   },
-  created:function(){
+  created() {
+    console.log('created');
+    //如果没有user信息, 显示游客页面和登录注册操作
+    console.log(store.state.user)
+    if(!store.state.user.token){
+      this.data.logged = false
+      console.log('store中没有user信息')
+      // this.$router.push('/login')
+      this.data.Avatar=avatar
+      this.data.user.userName = 'Guest'
+    }else {//有user信息，代表已登录
+      this.data.logged = true
+      console.log(store.state.user)
+      this.data.user = store.state.user
+      this.data.Avatar = BASE_IMG_URL+ store.state.user.userName+'.jpg'
+    }
   },
+
 };
 </script>
 

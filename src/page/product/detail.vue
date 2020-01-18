@@ -2,87 +2,31 @@
   <div class="goods">
      <headerNav title="商品详情"/>
     <van-swipe class="goods-swipe" :autoplay="3000">
-      <van-swipe-item v-for="thumb in goods.thumb" :key="thumb">
-        <img :src="thumb" >
+<!--      <van-swipe-item v-for="thumb in book.image" :key="BASE_IMG_URL+thumb">-->
+
+        <img :src="BASE_IMG_URL+book.image" >
       </van-swipe-item>
     </van-swipe>
 
     <van-cell-group>
       <van-cell>
-        <span class="goods-price">{{ formatPrice(goods.price) }}</span>
-        <span class="goods-market-price">{{ formatPrice(goods.market_price) }}</span>
-        <div class="goods-title">{{ goods.title }}</div>
-        <div class="goods-subtit">{{goods.subtitle}}</div>
-      </van-cell>
-      
-      <van-cell   @click="onClickShowTag" class="goods-tag" >
-        <template slot="title" style="font-size:10px;">
-            <img src="https://haitao.nos.netease.com/ba8a4c2fdaa54f82a45261293c116af61419663676663i46n3jlh10028.png"/>
-            <span >挪威品牌</span>
-            <img src="https://haitao.nosdn2.127.net/13bd59e6e29a4f06b278c586629e690d.png" />
-            <span >跨境商品</span>
-            <van-icon name="passed" color="red" />
-            <span >次日达</span>
-            <van-icon name="passed" color="red" />
-            <span >自提</span>
-            <van-icon name="passed" color="red" />
-            <span >闪电退款</span>
-            <van-icon name="passed" color="red" />
-            <span >前海保税仓</span>
-            <van-icon name="passed" color="red" />
-            <span >七天无理由退货（拆封后不支持）</span>
-        </template>
-      </van-cell>   
-    </van-cell-group>
-
-    <van-cell-group class="goods-cell-group">
-      <van-cell is-link  @click="showPromotion" >
-        <template slot="title">
-            <span style="margin-right: 10px;">领券</span>
-            <van-tag type="danger" mark  style="margin-right: 5px;">满180减30</van-tag>
-            <van-tag type="danger" mark  style="margin-right: 5px;">满300减100</van-tag>
-        </template>
-      </van-cell>
-      
-      <van-cell  is-link @click="showPromotion" >
-        <template slot="title">
-            <span style="margin-right: 10px;">促销</span>
-            <van-tag type="danger" style="margin-right: 5px;">多买优惠</van-tag>
-            <van-tag type="danger" style="margin-right: 5px;">满减</van-tag>
-            <van-tag type="danger" style="margin-right: 5px;">限购</van-tag>
-        </template>
+        <span class="goods-price">{{ formatPrice(book.price) }}</span>
+        <span class="goods-market-price">{{ formatPrice(book.price) }}</span>
+        <div class="goods-title">{{ book.bookname }}</div>
+        <div class="goods-subtit">{{book.bookdesc}}</div>
       </van-cell>
     </van-cell-group>
-    
-    <van-cell-group class="goods-cell-group">
-      <van-cell  is-link @click="showSku" >
-        <template slot="title">
-            <span style="margin-right: 10px;">已选</span>
-            <span >10件装</span>
-        </template>
-      </van-cell>
-      
-    </van-cell-group>
-    
     <div class="goods-info">
         <p class="goods-info-title" >图文详情</p>
-        <div v-html="goods.info"></div>
+        <div v-html="book.detail"></div>
     </div>
-    <van-goods-action>
-        
-      <van-goods-action-mini-btn icon="like-o" @click="sorry">
-        收藏
-      </van-goods-action-mini-btn>
-      <van-goods-action-mini-btn icon="cart" @click="onClickCart">
-        购物车
-      </van-goods-action-mini-btn>
-      <van-goods-action-big-btn @click="showSku">
-        加入购物车
-      </van-goods-action-big-btn>
-      <van-goods-action-big-btn primary @click="showSku">
-        立即购买
-      </van-goods-action-big-btn>
-    </van-goods-action>
+      <van-goods-action>
+          <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
+          <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickCart"/>
+          <van-goods-action-icon icon="star-o" text="收藏" color="#ff5000" @click="sorry" />
+          <van-goods-action-button type="warning" text="加入购物车" @click="showSku"/>
+          <van-goods-action-button type="danger" text="立即购买" @click="showSku"/>
+      </van-goods-action>
     <van-actionsheet v-model="show" title="促销" style="font-size:14px;">
         
             <van-cell  is-link @click="sorry" >
@@ -104,45 +48,7 @@
                 </template>
             </van-cell>
     </van-actionsheet>
-    
-    <van-actionsheet v-model="showTag" title="服务说明" style="font-size:14px;">
-        
-            <van-cell>
-                <template slot="title">
-                    <van-icon name="passed" color="red" style="margin-right: 10px;" />
-                    <span >次日达</span>
-                    <div style="margin-left: 24px;font-size:10px;color:#7d7d7d;">指定时间前下单，次日送达</div>
-                </template>
-            </van-cell>
-            <van-cell>
-                <template slot="title">
-                    <van-icon name="passed" color="red" style="margin-right: 10px;" />
-                    <span >自提</span>
-                    <div style="margin-left: 24px;font-size:10px;color:#7d7d7d;">我们提供多种自提服务，包括自提点、自助提货柜、移动自提车等服务</div>
-                </template>
-            </van-cell>
-            <van-cell>
-                <template slot="title">
-                    <van-icon name="passed" color="red" style="margin-right: 10px;" />
-                    <span >闪电退款</span>
-                    <div style="margin-left: 24px;font-size:10px;color:#7d7d7d;">签收7天内退货的，提供先退款后退货服务。</div>
-                </template>
-            </van-cell>
-            <van-cell>
-                <template slot="title">
-                    <van-icon name="passed" color="red" style="margin-right: 10px;" />
-                    <span >七天无理由退货（拆封后不支持）</span>
-                    <div style="margin-left: 24px;font-size:10px;color:#7d7d7d;">七天无理由退货（拆封后不支持）</div>
-                </template>
-            </van-cell>
-            <van-cell>
-                <template slot="title">
-                    <van-icon name="passed" color="red" style="margin-right: 10px;" />
-                    <span >前海保税仓</span>
-                    <div style="margin-left: 24px;font-size:10px;color:#7d7d7d;">本商品由前海保税仓发货</div>
-                </template>
-            </van-cell>
-    </van-actionsheet>
+
     <van-sku
           v-model="showBase"
           :sku="skuData.sku"
@@ -165,16 +71,32 @@
 
 <script>
 import skuData from '../../data/sku';
+import {reqBookDetails} from "../../api";
+import {BASE_IMG_URL} from "../../utils/constants";
+
 
 export default {
   components: {
   },
+  async created() {
+    const id = this.$route.params.id.replace(':',"")
+    console.log('id=>',id)
+    const result = await reqBookDetails(id,this)
+    if(result.code === '200'){
+      this.book = result.data
+      console.log(this.book)
+    }else {
+      console.log(result);
+    }
+
+  },
   data() {
     this.skuData = skuData;
     return {
+      BASE_IMG_URL,
       show:false,
       showTag:false,
-      goods: {
+      book: {
         title: '【每日一粒益智又长高】 Lifeline Care 儿童果冻鱼油DHA维生素D3聪明长高 软糖 30粒 2件装',
         subtitle:'【品牌直采】Q弹美味，无腥味果冻鱼油，每粒含足量鱼油DHA，帮助视网膜和大脑健康发育，让你的宝宝明眼又聪明，同时补充400国际单位维生素D3，强壮骨骼和牙齿。特含DPA，让宝宝免疫力更强，没病来扰。',
         price: 2680,

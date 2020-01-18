@@ -13,7 +13,7 @@ module.exports = {
         // open: true, //配置自动启动浏览器
         proxy: {
             '/': {
-                target: 'http://127.0.0.1:8080/', //对应自己的接口
+                target: 'http://127.0.0.1:9000/', //对应自己的接口
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {

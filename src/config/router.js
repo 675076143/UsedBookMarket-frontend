@@ -23,26 +23,13 @@ const routes = [
     }
   },
   {
-		path: '/login/password',
-    component: () => import('../page/account/password'),
+    path: '/addSelling',
+    component: () => import('../page/sell/AddSelling'),
     meta: {
-      title: '登录'
+      title: '卖书'
     }
   },
-  {
-		path: '/login/phone',
-    component: () => import('../page/account/phonelogin'),
-    meta: {
-      title: '手机号登录'
-    }
-  },
-  {
-		path: '/login/register',
-    component: () => import('../page/account/register'),
-    meta: {
-      title: '注册'
-    }
-  },
+
   {
 		path: '/user/index',
     component: () => import('../page/user/index'),

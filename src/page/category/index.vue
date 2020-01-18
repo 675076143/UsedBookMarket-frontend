@@ -8,16 +8,16 @@
         >
         <div slot="action" @click="onSearch">搜索</div>
         </van-search>
-        <van-badge-group :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
-            <van-badge v-for="type in types" :title="type" :key="type" @click="onClick(type)"/>
-        </van-badge-group>
+        <van-sidebar :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
+            <van-sidebar-item v-for="type in types" :title="type" :key="type" @click="onClick(type)"/>
+        </van-sidebar>
         <div class="content" :style="'width:'+fullWidth+'px;height:'+(fullHeight-7)+'px'" >
             <img :src='banner' />
             <div class="category-div">
                 <h4>{{currentType}}</h4>
                 <ul >
                     <li v-for="book in bookList">
-                      <router-link to="/search?keyword=xxxx">
+                      <router-link :to="'/product/:'+book.bookId">
                         <img :src="BASE_IMG_URL+book.bookImg">
                         <span>{{book.bookName}}</span>
                       </router-link>
@@ -50,7 +50,7 @@ export default {
     const result = await reqCategories(this)
     if(result.code==='200'){
       for(let item of result.data){
-        this.types.push(item)
+        this.types.push(item.categoryname)
       }
     }
     //获取所有书籍
