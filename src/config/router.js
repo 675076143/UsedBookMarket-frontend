@@ -12,28 +12,28 @@ const routes = [
     name: 'home',
     component: () => import('../page/index'),
     meta: {
-      title: '首页'
+      title: 'Home'
     }
   },
   {
 		path: '/login',
     component: () => import('../page/account/login'),
     meta: {
-      title: '登录'
+      title: 'Login'
     }
   },
   {
     path: '/register',
     component: () => import('../page/account/register'),
     meta: {
-      title: '注册'
+      title: 'Register'
     }
   },
   {
     path: '/addSelling',
     component: () => import('../page/sell/AddSelling'),
     meta: {
-      title: '卖书'
+      title: 'Selling'
     }
   },
 
@@ -42,7 +42,7 @@ const routes = [
     component: () => import('../page/user/index'),
     name: 'user',
     meta: {
-      title: '会员中心'
+      title: 'Profile'
     }
   },
   {
@@ -50,56 +50,50 @@ const routes = [
     component: () => import('../page/user/info/detail'),
     name: 'user',
     meta: {
-      title: '账号管理'
+      title: 'Account '
     }
   },
   {
     path: '/user/address',
     component: () => import('../page/user/address/list'),
     meta: {
-      title: '我的地址'
+      title: 'Address'
     }
   },
   {
     path: '/user/address/edit',
     component: () => import('../page/user/address/edit'),
     meta: {
-      title: '修改地址'
+      title: 'Edit Address'
     }
   },
   {
     path: '/user/favorite',
     component: () => import('../page/user/favorite/list'),
     meta: {
-      title: '我的收藏'
+      title: 'Star'
     }
   },
-  {
-    path: '/user/coupon',
-    component: () => import('../page/user/coupon/list'),
-    meta: {
-      title: '我的优惠券'
-    }
-  },
+
   {
     path: '/user/order',
     component: () => import('../page/user/order/list'),
     meta: {
-      title: '我的订单'
+      title: 'Order'
     }
   },
   {
     path: '/user/order/:id',
     component: () => import('../page/user/order/list'),
     meta: {
-      title: '我的订单'
+      title: 'Order'
     }
   },
   {
     path: '/user/order/info/:id',
     component: () => import('../page/user/order/info'),
     meta: {
-      title: '我的订单'
+      title: 'Order'
     }
   },
   {
