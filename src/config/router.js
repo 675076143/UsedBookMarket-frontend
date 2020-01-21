@@ -23,6 +23,13 @@ const routes = [
     }
   },
   {
+    path: '/register',
+    component: () => import('../page/account/register'),
+    meta: {
+      title: '注册'
+    }
+  },
+  {
     path: '/addSelling',
     component: () => import('../page/sell/AddSelling'),
     meta: {

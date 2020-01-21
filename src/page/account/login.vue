@@ -15,7 +15,7 @@
             <FormItem class="login-form-item">
                 <Checkbox v-model="remember">remember</Checkbox>
                 <van-button class="login-btn" @click="handleSubmit('formInline')"type="primary">Signin</van-button>
-                <van-button class="login-btn" type="warning">Register</van-button>
+                <van-button class="login-btn" type="warning" to="/register">Register</van-button>
             </FormItem>
         </Form>
     </div>

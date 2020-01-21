@@ -1,35 +1,48 @@
 <template>
     <div>
-      <headerNav title="注册"/>
-      <div style="background:url(https://haitao.nos.netease.com/f866dd18-12f0-4bb2-be6d-5cac85cf2627.png) center 18px no-repeat;background-size:161px;">
-          <div style="padding-top: 70px;">
+      <headerNav title="register"/>
+        <h1 style="margin:20px">Register</h1>
+        <div>
             <van-cell-group>
                 <van-field
-                    placeholder="请输入手机号"
+                        placeholder="please input username" v-model="userName"
                 />
-                 <van-field
-                    center
-                    clearable
-                    placeholder="请输入短信验证码"
-                >
-                    <van-button slot="button" size="small" type="primary">发送验证码</van-button>
-                </van-field>
                 <van-field
-                    type="password"
-                    placeholder="请输入密码"
+                        type="password"
+                        placeholder="please input password" v-model="password"
+                />
+                <van-field
+                        type="password"
+                        placeholder="please confirm password" v-model="passwordConfirm"
                 />
             </van-cell-group>
             <div style="margin: 10px;">
-                <van-button size="large" type="primary" style="height: 45px;line-height:45px;">注册</van-button>
+                <van-button size="large" type="primary" style="height: 45px;line-height:45px;" @click="register">Register</van-button>
             </div>
-          </div>
-      </div>
+        </div>
     </div>
 </template>
 
 <script>
-export default {
+import {reqRegister} from "../../api";
 
+export default {
+    data(){
+      return{
+        userName:"",
+        password:"",
+        passwordConfirm:""
+      }
+    },
+  methods:{
+      async register(){
+        const result = await  reqRegister(this.userName,this.password,this)
+        if(result.code ==='200'){
+          this.$toast.success('register success')
+          this.$router.push("/login")
+        }
+      }
+  }
 }
 </script>
 

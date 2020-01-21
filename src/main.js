@@ -10,8 +10,6 @@ import 'view-design/dist/styles/iview.css';
 
 import 'vant/lib/index.css';
 
-
-
 Vue.use(ViewUI);
 Vue.use(components);
 

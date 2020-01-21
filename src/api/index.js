@@ -5,6 +5,10 @@ export const reqLogin = (userName,password,that) => {
     // console.log({userName,password})
     return ajax(BASE_URL+'/api/user/login.php',{userName,password},'POST',that)
 }
+export const reqRegister = (userName,password,that) => {
+    // console.log({userName,password})
+    return ajax(BASE_URL+'/api/user/register.php',{userName,password},'POST',that)
+}
 export const reqProducts = (pageNum,pageSize,that)=>{
     return ajax(BASE_URL+'/api/products',{pageNum,pageSize},'GET',that)
 }
