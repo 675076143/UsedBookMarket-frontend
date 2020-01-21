@@ -163,7 +163,7 @@ const routes = [
     name: 'category',
     component: () => import('../page/category/index'),
     meta: {
-      title: '分类'
+      title: 'Category'
     }
   },
 ];

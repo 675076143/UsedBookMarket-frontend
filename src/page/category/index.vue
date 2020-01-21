@@ -9,7 +9,7 @@
         <div slot="action" @click="onSearch">Search</div>
         </van-search>
         <van-sidebar :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
-            <van-sidebar-item v-for="type in types" :title="type" :key="type" @click="onClick(type)"/>
+            <van-sidebar-item v-for="type in types" :title="type.categoryName" :key="type.categoryID" @click="onClick(type)"/>
         </van-sidebar>
         <div class="content" :style="'width:'+fullWidth+'px;height:'+(fullHeight-7)+'px'" >
             <img :src='banner' />
@@ -50,7 +50,7 @@ export default {
     const result = await reqCategories(this)
     if(result.code==='200'){
       for(let item of result.data){
-        this.types.push(item.categoryName)
+        this.types.push(item)
       }
     }
     //获取所有书籍
@@ -64,10 +64,13 @@ export default {
       banner,
       BASE_IMG_URL,
       value: "",
-      activeKey: 0,
+      activeKey: "0",
       fullHeight: document.documentElement.clientHeight - 93,
       fullWidth: document.documentElement.clientWidth - 99,
-      types:['All'],
+      types:[{
+        categoryName:"All",
+        categoryID:null
+      }],
       currentType:'All',
       bookList:[]
     };
@@ -77,13 +80,14 @@ export default {
       console.log(this.value);
     },
     async onClick(key) {
-      this.activeKey = key;
-      this.currentType = key;
+      console.log(key)
+      this.activeKey = key.categoryID;
+      this.currentType = key.categoryName;
       let result;
       if (key==='All'){
         result = await reqBooksByCategory(null,this)
       }else {
-        result = await reqBooksByCategory(key,this)
+        result = await reqBooksByCategory(key.categoryID,this)
       }
       if(result.code==='200'){
         this.bookList = result.data

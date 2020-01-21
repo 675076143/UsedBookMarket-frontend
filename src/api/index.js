@@ -15,8 +15,8 @@ export const reqProducts = (pageNum,pageSize,that)=>{
 export const reqCategories = (that)=>{
     return ajax(BASE_URL+'/api/category/category.php',{},'GET',that)
 }
-export const reqBooksByCategory = (categoryName,that)=>{
-    return ajax(BASE_URL+'/api/book/book.php',{categoryName},'GET',that)
+export const reqBooksByCategory = (categoryID,that)=>{
+    return ajax(BASE_URL+'/api/book/book.php',{categoryID},'GET',that)
 }
 export const reqBookDetails = (bookID,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',{bookID},'GET',that)
