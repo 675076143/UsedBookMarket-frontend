@@ -2,11 +2,11 @@
     <div>
         <van-search
         v-model="value"
-        placeholder="请输入搜索关键词"
+        placeholder="Please enter search keywords"
         show-action
         @search="onSearch"
         >
-        <div slot="action" @click="onSearch">搜索</div>
+        <div slot="action" @click="onSearch">Search</div>
         </van-search>
         <van-sidebar :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
             <van-sidebar-item v-for="type in types" :title="type" :key="type" @click="onClick(type)"/>

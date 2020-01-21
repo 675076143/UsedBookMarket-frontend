@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-     <headerNav title="商品详情"/>
+     <headerNav title="Book Details"/>
     <van-swipe class="goods-swipe" :autoplay="3000">
 <!--      <van-swipe-item v-for="thumb in book.image" :key="BASE_IMG_URL+thumb">-->
 
@@ -17,37 +17,16 @@
       </van-cell>
     </van-cell-group>
     <div class="goods-info">
-        <p class="goods-info-title" >图文详情</p>
+        <p class="goods-info-title" >Image&Text Details</p>
         <div v-html="book.detail"></div>
     </div>
       <van-goods-action>
-          <van-goods-action-icon icon="chat-o" text="客服" color="#07c160" />
-          <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickCart"/>
-          <van-goods-action-icon icon="star-o" text="收藏" color="#ff5000" @click="sorry" />
-          <van-goods-action-button type="warning" text="加入购物车" @click="showSku"/>
-          <van-goods-action-button type="danger" text="立即购买" @click="showSku"/>
+          <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" />
+          <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
+          <van-goods-action-icon icon="star-o" text="Star" color="#ff5000" @click="sorry" />
+          <van-goods-action-button type="warning" text="add to cart" @click="showSku"/>
+          <van-goods-action-button type="danger" text="purchase" @click="showSku"/>
       </van-goods-action>
-    <van-actionsheet v-model="show" title="促销" style="font-size:14px;">
-        
-            <van-cell  is-link @click="sorry" >
-                <template slot="title">
-                    <van-tag type="danger">多买优惠</van-tag>
-                    <span> 满2件，总价打9折</span>
-                </template>
-            </van-cell>
-            <van-cell  is-link @click="sorry" >
-                <template slot="title">
-                    <van-tag type="danger">满减</van-tag>
-                    <span> 满100元减50元</span>
-                </template>
-            </van-cell>
-            <van-cell  is-link @click="sorry" >
-                <template slot="title">
-                    <van-tag type="danger">限购</van-tag>
-                    <span> 购买不超过5件时享受单件价￥8.00，超出数量以结算价为准</span>
-                </template>
-            </van-cell>
-    </van-actionsheet>
 
     <van-sku
           v-model="showBase"
@@ -96,19 +75,7 @@ export default {
       BASE_IMG_URL,
       show:false,
       showTag:false,
-      book: {
-        title: '【每日一粒益智又长高】 Lifeline Care 儿童果冻鱼油DHA维生素D3聪明长高 软糖 30粒 2件装',
-        subtitle:'【品牌直采】Q弹美味，无腥味果冻鱼油，每粒含足量鱼油DHA，帮助视网膜和大脑健康发育，让你的宝宝明眼又聪明，同时补充400国际单位维生素D3，强壮骨骼和牙齿。特含DPA，让宝宝免疫力更强，没病来扰。',
-        price: 2680,
-        market_price:9999,
-        express: '免运费',
-        remain: 19,
-        thumb: [
-          'https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg',
-          'https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg'
-        ],
-        info:'<p style="text-align:center;"><img src="https://haitao.nosdn2.127.net/ac19460151ee4d95a6657202bcfc653c1531470912089jjjq8ml410763.jpg" ></p><p style="text-align:center;"><img src="https://haitao.nos.netease.com/2a91cfad22404e5498d347672b1440301531470912182jjjq8mnq10764.jpg" ></p><p style="text-align:center;"><img src="https://haitao.nos.netease.com/caddd5a213de4c1cb1347c267e8275731531470912412jjjq8mu410765.jpg" ></p>',
-      },
+      book: {},
       showBase: false,
       showCustom: false,
       showStepper: false,
