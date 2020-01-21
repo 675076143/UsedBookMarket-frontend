@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "qs": "^6.9.1",
     "store": "^2.0.12",
     "vant": "^2.4.2",
     "view-design": "^4.0.2",

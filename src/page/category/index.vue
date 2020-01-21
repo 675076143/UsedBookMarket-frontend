@@ -17,8 +17,8 @@
                 <h4>{{currentType}}</h4>
                 <ul >
                     <li v-for="book in bookList">
-                      <router-link :to="'/product/:'+book.bookId">
-                        <img :src="BASE_IMG_URL+book.bookImg">
+                      <router-link :to="'/product/:'+book.bookID">
+                        <img :src="BASE_IMG_URL+book.image">
                         <span>{{book.bookName}}</span>
                       </router-link>
                     </li>
@@ -50,7 +50,7 @@ export default {
     const result = await reqCategories(this)
     if(result.code==='200'){
       for(let item of result.data){
-        this.types.push(item.categoryname)
+        this.types.push(item.categoryName)
       }
     }
     //获取所有书籍

@@ -7,7 +7,7 @@
 * 使用NProgress在发送请求时显示进度条
 * */
 import axios from 'axios'
-
+import qs from 'qs'
 
 export default function ajax (url, data={}, method="GET",that) {
 
@@ -28,9 +28,10 @@ export default function ajax (url, data={}, method="GET",that) {
         }else if(method==="DELETE"){//delete请求
             promise = axios.delete(url,data)
         }
-        else {//post请求
-            // promise = axios.post(url,Qs.stringify(data))
+        else if(method==='POST') {//post请求
             promise = axios.post(url,data)
+        }else {
+            console.log("error option!")
         }
         //2. 如果成功了，调用resolve
         promise.then(response=>{

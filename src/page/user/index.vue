@@ -140,7 +140,7 @@ export default {
     console.log('created');
     //如果没有user信息, 显示游客页面和登录注册操作
     console.log(store.state.user)
-    if(!store.state.user.token){
+    if(!store.state.user.userID){
       this.data.logged = false
       console.log('store中没有user信息')
       // this.$router.push('/login')
