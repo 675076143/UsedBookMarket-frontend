@@ -22,8 +22,8 @@ export const reqBookDetails = (bookID,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',{bookID},'GET',that)
 }
 export const reqAddSellingBook = (book,that)=>{
-    return ajax(BASE_URL+'/api/books',book,'POST',that)
+    return ajax(BASE_URL+'/api/book/book.php',book,'POST',that)
 }
 export const reqUpload = (file,that)=>{
-    return ajax(BASE_URL+'/api/upload/uploadImg.php',file,'FILE',that)
+    return ajax(BASE_URL+'/api/upload/uploadImg.php',file,'POST',that)
 }
