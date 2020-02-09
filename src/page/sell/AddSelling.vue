@@ -1,5 +1,11 @@
 <template>
     <div class="add-selling">
+        <van-nav-bar
+                title="Add Selling"
+                left-text="back"
+                left-arrow
+                @click-left="()=>{this.$router.back()}"
+        />
         <van-cell-group>
             <van-field v-model="bookName" type="text" label="名称" />
             <van-field

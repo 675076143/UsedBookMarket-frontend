@@ -153,6 +153,7 @@ const routes = [
     }
   },
   {
+    path: '/cart',
     name: 'cart',
     component: () => import('../page/cart/index'),
     meta: {

@@ -36,3 +36,9 @@ export const reqModifyBook = (book,that)=>{
 export const reqDeleteBook = (book,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',book,'DELETE',that)
 }
+export const reqShoppingCart = (userID,that)=>{
+    return ajax(BASE_URL+'/api/shoppingCart/shoppingCart.php',{userID},'GET',that)
+}
+export const reqDeleteBookFromShoppingCart = (shoppingCartIdList,that)=>{
+    return ajax(BASE_URL+'/api/shoppingCart/shoppingCart.php',shoppingCartIdList,'DELETE',that)
+}

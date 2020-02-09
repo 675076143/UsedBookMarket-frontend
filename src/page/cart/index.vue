@@ -1,33 +1,38 @@
 <template>
-  <div class="card">
+  <div class="cart">
     <headerNav title="购物车"/>
-       <van-cell  value="编辑商品" class="head">
+       <van-cell>
+         <template slot="default">
+           <span @click="()=>this.editMode=!this.editMode">{{this.editText}}</span>
+         </template>
         <template slot="title">
-          <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+          <van-checkbox v-model="checkedAll" @change="changeCheckAllState" >全选</van-checkbox>
         </template>
       </van-cell>
 
-    <van-checkbox-group class="card-goods" v-model="checkedGoods">
-
-      <div  v-for="(item,index) in goods"
-        :key="index+10" class="card-goods__item">
-        <van-checkbox :name="item.id"></van-checkbox>
-
-        <product-card :product='item' :iscard='true' >
-          <template slot>
-            <van-cell value="修改" >
-                <template slot="title">
-                    <van-tag type="danger">促销</van-tag>
-                    <span class="van-cell-text" >满60元减5元</span>
-                </template>
-            </van-cell>
-          </template>
-        </product-card>
-      </div>
+    <van-checkbox-group class="card-goods" v-model="checkedGoods" ref="checkboxGroup">
+      <van-checkbox :name="item.shoppingCartID" v-for="item in shoppingCart" class="cart-item">
+        <van-card
+                @click="redirect(item)"
+                :price="item.price"
+                :desc="item.bookDesc"
+                :title="item.bookName"
+                :thumb="BASE_IMG_URL+item.image">
+        </van-card>
+      </van-checkbox>
     </van-checkbox-group>
 
     <div style="height:50px;"></div>
-    <van-submit-bar
+    <van-submit-bar v-if="editMode"
+            :disabled="!checkedGoods.length"
+            button-text="Delete"
+            @submit="handleDelete"
+    >
+      <template slot>
+        <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+      </template>
+    </van-submit-bar>
+    <van-submit-bar v-if="!editMode"
       :price="totalPrice"
       :disabled="!checkedGoods.length"
       :button-text="submitBarText"
@@ -41,35 +46,63 @@
 </template>
 
 <script>
+import store from '../../store'
+import {reqDeleteBookFromShoppingCart, reqShoppingCart} from "../../api";
+import {BASE_IMG_URL} from "../../utils/constants";
 
 export default {
   components: {
   },
   data() {
     return {
-      checkedAll:true,
-      checkedGoods: ['1'],
-      goods: [{
-        id: '1',
-        title: 'The Old Man and The Sea',
-        desc: '',
-        price: '200.00',
-        quantity: 1,
-        imageURL: 'http://img10.360buyimg.com/n0/jfs/t1/83851/11/10334/500835/5d8057c8Eb0ec0a59/2d94e84aaeeeda27.jpg',
-        imageTag:'比加入时降5元',
-      }]
+      checkedAll:false,
+      checkedGoods: [],
+      shoppingCart:[],
+      BASE_IMG_URL,
+      editMode:false
     };
   },
+  created() {
+    this.initShoppingCart()
+  },
   computed: {
+    editText(){
+      return this.editMode?'Finish':'Edit'
+    },
     submitBarText() {
       const count = this.checkedGoods.length;
       return '结算' + (count ? `(${count})` : '');
     },
     totalPrice() {
-      return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? parseFloat(item.price): 0), 0);
+      // return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? parseFloat(item.price): 0), 0);
     },
   },
   methods: {
+    async initShoppingCart(){
+      const {userID} = store.state.user;
+      const result = await reqShoppingCart(userID,this);
+      if(result.code === '200'){
+        this.shoppingCart = result.data
+      }
+    },
+    async handleDelete(){
+      const shoppingCartIdList = this.checkedGoods;
+      const request = {data:{shoppingCartIdList}}
+      const result = await reqDeleteBookFromShoppingCart(request,this);
+      if(result.code === '200'){
+        this.$toast.success(result.message);
+        this.checkedGoods = [];
+        this.initShoppingCart();
+      }else {
+        this.$toast.fail(result.message)
+      }
+    },
+    changeCheckAllState(){
+      this.$refs.checkboxGroup.toggleAll(this.checkedAll)
+    },
+    redirect(item){
+      this.$router.push(`/product/${item.bookID}`)
+    },
     onSubmit() {
 
       this.$router.push('/order')
@@ -79,55 +112,12 @@ export default {
 </script>
 
 <style lang="less">
-.card-goods {
-  font-size: 12px;
-  &__item {
-    position: relative;
-    .van-checkbox{
-      width: 20px;
-      height: 20px;
-      top: 40px;
-      left: 5px;
-      z-index: 1;
-      position: absolute;
-    }
-    .additional{
-      width: 100%;
-        padding-left: 15px;
-    box-sizing: border-box;
-    }
+.cart-item{
+  border-bottom: 1px solid #f6f6f6;
+  padding-left: 10px;
+  span{overflow: hidden;}
+  .van-card{
+    background-color: #fff;
   }
 }
-.head{
-      padding-left: 5px;
-  border-bottom: 1px solid #eee;
-}
-.card{
-  background: #f7f7f7;
-  .van-submit-bar__bar {
-      border-top: 1px solid #f7f7f7;
-      .van-checkbox{
-        padding-left: 5px;
-      }
-  }
-  .promotion{
-      .van-tag {
-          line-height: 12px;
-          margin-right: 5px;
-      }
-      .van-cell__title{
-
-      flex: 4;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      }
-    }
-    .promotion-group{
-      margin-top: 10px;
-      box-shadow: 5px 5px 5px #e5e5e5;
-    }
-}
-
-
 </style>
