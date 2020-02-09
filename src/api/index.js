@@ -27,3 +27,12 @@ export const reqAddSellingBook = (book,that)=>{
 export const reqUpload = (file,that)=>{
     return ajax(BASE_URL+'/api/upload/uploadImg.php',file,'POST',that)
 }
+export const reqPublished = (userID,that)=>{
+    return ajax(BASE_URL+'/api/book/book.php',{userID},'GET',that)
+}
+export const reqModifyBook = (book,that)=>{
+    return ajax(BASE_URL+'/api/book/book.php',book,'PUT',that)
+}
+export const reqDeleteBook = (book,that)=>{
+    return ajax(BASE_URL+'/api/book/book.php',book,'DELETE',that)
+}

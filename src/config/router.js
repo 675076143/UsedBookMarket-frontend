@@ -36,6 +36,13 @@ const routes = [
       title: 'Selling'
     }
   },
+  {
+    path: '/published',
+    component: () => import('../page/sell/Published'),
+    meta: {
+      title: 'Published'
+    }
+  },
 
   {
 		path: '/user/index',

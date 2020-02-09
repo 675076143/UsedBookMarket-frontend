@@ -23,7 +23,7 @@
               <div>Selling books</div>
             </van-col>
           </router-link>
-          <router-link  to="/user/order/1" disabled>
+          <router-link  to="/published">
             <van-col span="6">
               <van-icon name="balance-list-o" />
               <div>published</div>
