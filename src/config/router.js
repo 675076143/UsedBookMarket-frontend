@@ -61,6 +61,14 @@ const routes = [
     }
   },
   {
+    path: '/user/modify',
+    component: () => import('../page/user/modify'),
+    name: 'user',
+    meta: {
+      title: 'Account '
+    }
+  },
+  {
     path: '/user/address',
     component: () => import('../page/user/address/list'),
     meta: {
@@ -162,7 +170,8 @@ const routes = [
   },
   {
     path: '/order',
-    component: () => import('../page/shipping/order'),
+    name:'order',
+    component: () => import('../page/order/order'),
     meta: {
       title: '确认订单'
     }

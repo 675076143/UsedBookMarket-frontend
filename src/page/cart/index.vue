@@ -74,7 +74,7 @@ export default {
       return '结算' + (count ? `(${count})` : '');
     },
     totalPrice() {
-      // return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? parseFloat(item.price): 0), 0);
+      return 100*this.shoppingCart.reduce((total, item) => total + (this.checkedGoods.indexOf(item.shoppingCartID) !== -1 ? parseFloat(item.price): 0), 0);
     },
   },
   methods: {
@@ -104,8 +104,19 @@ export default {
       this.$router.push(`/product/${item.bookID}`)
     },
     onSubmit() {
-
-      this.$router.push('/order')
+      const {checkedGoods,shoppingCart} = this;
+      const initOrderList = [];
+      shoppingCart.map(item=>{
+        if(checkedGoods.indexOf(item.shoppingCartID)!==-1){
+          initOrderList.push({...item});
+        }
+      })
+      this.$router.push({
+        name:'order',
+        params:{
+          initOrderList
+        }
+      })
     }
   }
 };

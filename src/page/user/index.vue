@@ -3,16 +3,16 @@
     <div class="user-profile">
       <div class="user-profile-avatar">
         <a href="/#/user/info">
-          <img :src="data.Avatar" alt="Avatar">
+          <img :src="logged?BASE_IMG_URL+user.avatar:avatar" alt="Avatar">
         </a>
       </div>
       <div class="user-profile-username">
         <a href="/#/user/info">
-          <span class="m-nick">{{data.user.userName}}</span>
+          <span class="m-nick">{{user.userName}}</span>
         </a>
       </div>
     </div>
-    <div v-if="data.logged">
+    <div v-if="logged">
       <van-cell-group class="user-group">
         <van-cell title="Sell" is-link />
 
@@ -38,12 +38,12 @@
         </van-row>
       </van-cell-group>
       <van-cell-group class="user-group">
-        <van-cell title="Orders" value="Check all orders" is-link  disabled/>
+        <van-cell title="Orders" value="Check all orders" is-link  />
         <van-row class="user-links">
-          <router-link  to="/user/order/1" disabled>
+          <router-link to="/user/order">
             <van-col span="6">
               <van-icon name="pending-payment">
-                <van-info :info="data.UnPayTotal"  />
+                <van-info :info="UnPayTotal"  />
               </van-icon>
               <div>Pending payment</div>
             </van-col>
@@ -51,7 +51,7 @@
           <router-link  to="/user/order/2" disabled>
             <van-col span="6">
               <van-icon name="logistics">
-                <van-info :info="data.UnRecieveTotal"   />
+                <van-info :info="UnRecieveTotal"   />
               </van-icon>
               <div>To be shipped</div>
             </van-col>
@@ -112,18 +112,16 @@
 
 <script>
 import {reqLogin} from "../../api";
-import  avatar from '../../assets/images/user_48px.png';
 import store from '../../store/index'
-import {BASE_IMG_URL} from "../../utils/constants";
-
+import {BASE_IMG_URL} from '../../utils/constants'
+import avatar from '../../assets/images/user_48px.png'
 export default {
   data(){
     return{
-      data:{
-        BASE_IMG_URL,
-        logged:false,
-        user:{}
-      }
+      logged:false,
+      user:{},
+      BASE_IMG_URL,
+      avatar
     }
   },
   components: {
@@ -133,16 +131,15 @@ export default {
     //If there is no user information, display the visitor page and login registration operation
     console.log(store.state.user)
     if(!store.state.user.userID){
-      this.data.logged = false
+      this.logged = false
       console.log('store中没有user信息')
       // this.$router.push('/login')
-      this.data.Avatar=avatar
-      this.data.user.userName = 'Guest'
+      this.Avatar=avatar
+      this.user.userName = 'Guest'
     }else {//With user information, it means that you have logged in
-      this.data.logged = true
+      this.logged = true
       console.log(store.state.user)
-      this.data.user = store.state.user
-      this.data.Avatar = BASE_IMG_URL+ store.state.user.userName+'.jpg'
+      this.user = store.state.user
     }
   },
 

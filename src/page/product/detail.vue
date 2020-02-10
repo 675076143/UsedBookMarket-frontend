@@ -10,10 +10,10 @@
 
     <van-cell-group>
       <van-cell>
-        <span class="goods-price">{{ formatPrice(book.price) }}</span>
-        <span class="goods-market-price">{{ formatPrice(book.price) }}</span>
-        <div class="goods-title">{{ book.bookname }}</div>
-        <div class="goods-subtit">{{book.bookdesc}}</div>
+        <span class="goods-price">{{ '￥'+book.price }}</span>
+        <span class="goods-market-price">{{ '￥'+book.price }}</span>
+        <div class="goods-title">{{ book.bookName }}</div>
+        <div class="goods-subtit">{{book.bookDesc}}</div>
       </van-cell>
     </van-cell-group>
     <div class="goods-info">
@@ -24,35 +24,17 @@
           <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" />
           <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
           <van-goods-action-icon icon="star-o" text="Star" color="#ff5000" @click="sorry" />
-          <van-goods-action-button type="warning" text="add to cart" @click="showSku"/>
+          <van-goods-action-button type="warning" text="add to cart" @click="handleAddToCart"/>
           <van-goods-action-button type="danger" text="purchase" @click="showSku"/>
       </van-goods-action>
-
-    <van-sku
-          v-model="showBase"
-          :sku="skuData.sku"
-          :goods="skuData.goods_info"
-          :goods-id="skuData.goods_id"
-          :hide-stock="skuData.sku.hide_stock"
-          :quota="skuData.quota"
-          :quota-used="skuData.quota_used"
-          reset-stepper-on-hide
-          reset-selected-sku-on-hide
-          disable-stepper-input
-          :close-on-click-overlay="closeOnClickOverlay"
-          :message-config="messageConfig"
-          :custom-sku-validator="customSkuValidator"
-          @buy-clicked="onBuyClicked"
-          @add-cart="onAddCartClicked"
-        />
   </div>
 </template>
 
 <script>
 import skuData from '../../data/sku';
-import {reqBookDetails} from "../../api";
+import {reqAddToCart, reqBookDetails} from "../../api";
 import {BASE_IMG_URL} from "../../utils/constants";
-
+import store from '../../store'
 
 export default {
   components: {
@@ -114,8 +96,15 @@ export default {
     };
   },
   methods: {
-    formatPrice(data) {
-      return '¥' + (data / 100).toFixed(2);
+    async handleAddToCart(){
+      const {userID} = store.state.user;
+      const {bookID} = this.book;
+      const result = await reqAddToCart(bookID,userID,this);
+      if(result.code ==='200'){
+        this.$toast.success(result.message)
+      }else {
+        this.$toast.fail(result.message)
+      }
     },
     onClickCart() {
       this.$router.push('/cart');
