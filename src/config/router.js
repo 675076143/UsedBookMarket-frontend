@@ -69,6 +69,14 @@ const routes = [
     }
   },
   {
+    path: '/user/balance',
+    component: () => import('../page/user/balance'),
+    name: 'balance',
+    meta: {
+      title: 'Balance '
+    }
+  },
+  {
     path: '/user/address',
     component: () => import('../page/user/address/list'),
     meta: {

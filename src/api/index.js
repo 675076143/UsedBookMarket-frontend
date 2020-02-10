@@ -57,3 +57,6 @@ export const reqOrder = (userID,orderState,that)=>{
 export const reqModifyProfile = (userID,email,phone,balance,avatar,that)=>{
     return ajax(BASE_URL+'/api/user/user.php',{userID,email,phone,balance,avatar,},'PUT',that)
 }
+export const reqUser = (userID,that)=>{
+    return ajax(BASE_URL+"/api/user/user.php",{userID},'GET',that)
+}
