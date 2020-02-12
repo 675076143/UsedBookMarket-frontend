@@ -116,7 +116,14 @@ export default {
         this.show=true;
     },
     showSku(){
-        this.showBase=true;
+      const {book} = this;
+      const initOrderList = [book];
+      this.$router.push({
+        name:'order',
+        params:{
+          initOrderList
+        }
+      })
     },
     onClickShowTag(){
         this.showTag=true;
