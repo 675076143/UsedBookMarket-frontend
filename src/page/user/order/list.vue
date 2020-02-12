@@ -1,136 +1,95 @@
 <template>
-<div>
-     <headerNav title="我的订单"/>
-    <van-tabs v-model="active">
-        <van-tab title="全部">
+    <div>
+        <headerNav title="Pending payment"/>
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh"
+                          loading-text="loading..."
+                          loosing-text="release to refresh..."
+                          pulling-text="pull to refresh...">
 
-            <div v-for="(item,index) in list" :key="index">
-                <van-cell-group class="order-item" >
-                    <van-panel :title="'订单：'+item.ordercode" :status="item.state"  >
-                    <div slot="header">
-                        <van-cell class="title" :title="'订单：'+item.ordercode" :value="item.state" :to="'/user/order/info/'+item.orderid"/>
-                    </div>
-                        <div>
-                            <router-link :to="'/user/order/info/'+item.orderid">
-                            <div v-if="item.products.length==1" v-for="(product,i) in item.products" :key="i">
-                                <product-card :product='product' />
-                            </div>
-                            <div  v-if="item.products.length>1" class="more" >
-                                <div class="item" v-for="(product,i) in item.products" :key="i">
-                                    <div >
-                                        <img :src="product.imageURL"/>
-                                    </div>
-                                </div>
-                            </div>
-                            </router-link>
-                        </div>
-                        <div slot="footer">
-                            <span class="total">总价：￥8154898.89</span>
-                            <van-button size="small">确认收货</van-button>
-                            <van-button size="small" type="danger">支付</van-button>
-                        </div>
-                    </van-panel>
-                </van-cell-group>
+        <div class="order" v-for="order in orders">
+            <div style="padding: 10px">
+                <h4>Order No. {{order.orderID}}</h4>
+                <van-card v-for="orderSub in order.orderSub"
+                          class="order-sub-item"
+                          :price="orderSub.price"
+                          :title="orderSub.bookName"
+                          :thumb="BASE_IMG_URL+orderSub.image"
+                >
+                </van-card>
+                <p style="color: indianred;text-align: right">total: ￥{{order.totalPrice}}</p>
+                <div class="control-pane">
+                    <van-button type="primary" @click="()=>{submitPay(order.orderID)}" size="small">Pay it now</van-button>
+                    <van-button type="danger" size="small">Cancel Order</van-button>
+                </div>
             </div>
-
-        </van-tab>
-        <van-tab title="待付款">内容 2</van-tab>
-        <van-tab title="待收货">内容 3</van-tab>
-        <van-tab title="已完成">内容 4</van-tab>
-        <van-tab title="已取消">内容 5</van-tab>
-    </van-tabs>
-</div>
+        </div>
+        </van-pull-refresh>
+    </div>
 </template>
 
 <script>
-export default {
+  import {reqOrder, reqPayOrder, reqUser} from "../../../api";
+  import store from '../../../store';
+  import {BASE_IMG_URL} from "../../../utils/constants";
+  import storageUtils from "../../../utils/storageUtils";
+
+  export default {
     components:{
     },
     data(){
-        return{
-            active:0,
-
-            list:[
-                {
-                    orderid:1,
-                    ordercode:'4511248234235',
-                    state:'待付款',
-                    products:[
-                        {
-                            imageURL:'https://images-cn.ssl-images-amazon.com/images/I/71PXdkcP6gL._AC_UY218_ML3_.jpg',
-                            title:'THE OLD MAN AND THE SEA',
-                            price:'499',
-                            quantity:2
-                        },
-                    ]
-                },
-                {
-                    orderid:2,
-                    ordercode:'4511248234235',
-                    state:'待收货',
-                    products:[
-
-                    ]
-                },
-                {
-                    orderid:3,
-                    ordercode:'4511248234235',
-                    state:'已完成',
-                    products:[
-
-                    ]
-                },
-                {
-                    orderid:4,
-                    ordercode:'4511248234235',
-                    state:'已取消',
-                    products:[
-                    ]
-                },
-            ]
+      return{
+        orders:[],
+        BASE_IMG_URL,
+        isLoading: false
+      }
+    },
+    created() {
+      this.initData()
+    },
+    methods:{
+      async initData(){
+        const {userID} = store.state.user;
+        const result = await reqOrder(userID,0,this);
+        if(result.code === "200"){
+          this.orders = result.data
+          const res = await reqOrder(userID,0,this);
+          if(res.code === "200") this.orders = res.data;
+          const resUser = await reqUser(userID,this)
+          if(resUser.code==='200'){
+            this.user = resUser.data
+            store.commit('setUser',resUser.data)
+            storageUtils.setUser(resUser.data)
+          }
         }
+      },
+      async submitPay(orderID){
+        const {userID} = store.state.user;
+        const res = await reqPayOrder(orderID,userID,this);
+        if(res.code === '200'){
+          this.$toast.success(res.message);
+          this.initData();
+        }else {
+          this.$toast.fail(res.message)
+        }
+      },
+      async onRefresh(){
+        const {userID} = store.state.user;
+        const result = await reqOrder(userID,0,this);
+        if(result.code === "200"){
+          this.orders = result.data
+          this.$toast.success("refreshed")
+          this.isLoading = false
+        }else {
+          this.isLoading = false
+          this.$toast.fail(result.message)
+        }
+      },
     }
-}
+  }
 </script>
 
 <style lang="less">
-
-.order-item{
-    margin-bottom: 10px;
-    font-size: 12px;
-    .title{
-        border-bottom: 1px solid #e5e5e5;
-
-        .van-cell__title{
-            flex: 2;
-        }
-        .van-cell__value{
-            color: red;
-        }
-    }
-
-
-    .van-panel__footer {
-        text-align: right;
-        border-bottom: 1px solid #e5e5e5;
-    }
-    .van-button {
-        margin-left: 5px;
-    }
-    .total{
-    position: absolute;
-    top: 17px;
-    left: 15px;
-    font-size: 13px;
-    }
-    .more{
-        overflow-x: scroll;white-space: nowrap;    -webkit-overflow-scrolling: touch;    margin: 5px 0 5px 15px;
-        .item{
-            width: 90px; height:90px; margin-right: 10px;display: inline-block;
-            img{
-                width: 100%;
-            }
-        }
-    }
+.control-pane{
+    text-align: right;
 }
 </style>

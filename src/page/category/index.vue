@@ -13,6 +13,10 @@
         </van-sidebar>
         <div class="content" :style="'width:'+fullWidth+'px;height:'+(fullHeight-7)+'px'" >
             <img :src='banner' />
+            <van-pull-refresh v-model="isLoading" @refresh="onRefresh"
+                              loading-text="loading..."
+                              loosing-text="release to refresh..."
+                              pulling-text="pull to refresh...">
             <div class="category-div">
                 <h4>{{currentType}}</h4>
                 <ul >
@@ -25,6 +29,7 @@
                     <div style="clear:both"></div>
                 </ul>
             </div>
+            </van-pull-refresh>
         </div>
         <navigate />
     </div>
@@ -61,6 +66,7 @@ export default {
   },
   data() {
     return {
+      isLoading:false,
       banner,
       BASE_IMG_URL,
       value: "",
@@ -91,6 +97,16 @@ export default {
       }
       if(result.code==='200'){
         this.bookList = result.data
+      }
+    },
+    async onRefresh(){
+      //获取所有书籍
+      const resultBooks = await reqBooksByCategory(null,this)
+      if(resultBooks.code==='200'){
+        this.bookList = resultBooks.data
+        this.isLoading = false
+      }else {
+        this.isLoading = false
       }
     }
   }

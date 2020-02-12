@@ -1,12 +1,12 @@
 <template>
   <div class="cart">
-    <headerNav title="购物车"/>
+    <headerNav title="Shopping Cart"/>
        <van-cell>
          <template slot="default">
            <span @click="()=>this.editMode=!this.editMode">{{this.editText}}</span>
          </template>
         <template slot="title">
-          <van-checkbox v-model="checkedAll" @change="changeCheckAllState" >全选</van-checkbox>
+          <van-checkbox v-model="checkedAll" @change="changeCheckAllState" >Select All</van-checkbox>
         </template>
       </van-cell>
 
@@ -29,17 +29,18 @@
             @submit="handleDelete"
     >
       <template slot>
-        <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+        <van-checkbox v-model="checkedAll" >Select All</van-checkbox>
       </template>
     </van-submit-bar>
     <van-submit-bar v-if="!editMode"
       :price="totalPrice"
       :disabled="!checkedGoods.length"
       :button-text="submitBarText"
+      label="Total："
       @submit="onSubmit"
     >
     <template slot>
-      <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+      <van-checkbox v-model="checkedAll" >Select All</van-checkbox>
     </template>
     </van-submit-bar>
   </div>
@@ -71,7 +72,7 @@ export default {
     },
     submitBarText() {
       const count = this.checkedGoods.length;
-      return '结算' + (count ? `(${count})` : '');
+      return 'Submit' + (count ? `(${count})` : '');
     },
     totalPrice() {
       return 100*this.shoppingCart.reduce((total, item) => total + (this.checkedGoods.indexOf(item.shoppingCartID) !== -1 ? parseFloat(item.price): 0), 0);

@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-     <headerNav title="确认订单"/>
+     <headerNav title="confirm order"/>
      <van-cell
       center
       :border="false"
@@ -9,11 +9,11 @@
       to="/user/address?id=2"
     >
       <template v-if="type === 'add'">
-        <strong>选择地址</strong>
+        <strong>choose address</strong>
       </template>
       <template v-else>
-        <strong>张三 138****6520</strong>
-        <div>广东省深圳市南山区科技园 </div>
+        <strong>Sheng 138****6520</strong>
+        <div>XXXXXXXXXXXXXXXXXX</div>
       </template>
     </van-cell>
       <van-card v-for="item in initOrderList"
@@ -29,14 +29,14 @@
         <van-cell title="total price" :value="totalPrice" />
 <!--        <van-cell title="运费" value="+ 0.00" />-->
 <!--        <van-cell title="折扣" value="- 5.00" />-->
-        <van-cell title="实付金额" :value="totalPrice" style="font-weight: 700;" />
+        <van-cell title="final price" :value="totalPrice" style="font-weight: 700;" />
     </van-cell-group>
 
     <div style="height:50px;"></div>
     <van-submit-bar
       :price="totalPrice*100"
-      button-text="提交订单"
-      label='实付金额：'
+      button-text="submit"
+      label='final price：'
       @submit="onSubmit"
     />
 
@@ -56,6 +56,9 @@ export default {
       BASE_IMG_URL
     };
   },
+  created() {
+    if(!this.$route.params.initOrderList) this.$router.push("/");
+  },
   methods: {
     async onSubmit() {
       const bookList = [];
@@ -73,6 +76,8 @@ export default {
           }else {
             this.$toast.fail(res.message)
           }
+        }).catch(()=>{
+          this.$router.push("/user/order");
         })
       }else {
         this.$toast.fail(result.message)

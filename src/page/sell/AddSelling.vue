@@ -7,16 +7,16 @@
                 @click-left="()=>{this.$router.back()}"
         />
         <van-cell-group>
-            <van-field v-model="bookName" type="text" label="名称" />
+            <van-field v-model="bookName" type="text" label="name" />
             <van-field
                     v-model="bookDesc"
                     rows="8"
                     autosize
-                    label="描述"
+                    label="describe"
                     type="textarea"
-                    placeholder="品牌型号，新旧程度，入手渠道，转手原因"
+                    placeholder="Old and new degree, starting channel, transfer reason"
             />
-            <van-field v-model="price" type="number" label="价格" />
+            <van-field v-model="price" type="number" label="price" />
             <van-uploader v-model="fileList" :after-read="afterRead" :max-count="1" />
             <van-dropdown-menu>
                 <van-dropdown-item v-model="categoryID" :options="categories" />
