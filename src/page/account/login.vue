@@ -13,7 +13,6 @@
                 </Input>
             </FormItem>
             <FormItem class="login-form-item">
-                <Checkbox v-model="remember">remember</Checkbox>
                 <van-button class="login-btn" @click="handleSubmit('formInline')"type="primary">Signin</van-button>
                 <van-button class="login-btn" type="warning" to="/register">Register</van-button>
             </FormItem>
@@ -30,7 +29,6 @@
     name: "Login",
     data () {
       return {
-        remember:false,
         formInline: {
           username: '',
           password: ''
@@ -50,20 +48,16 @@
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             //获取数据
-            const {username,password} = this.formInline
+            const {username,password} = this.formInline;
             const result = await reqLogin(username,password,this)
             if(result.code==='200'){
               this.$Message.success(result.message)
-              await store.commit('setUser',result.data)
-              if(this.remember){
-                storageUtils.setUser(result.data)
-              }
-              await this.$router.push("/user/index")
+              store.commit('setUser',result.data)
+              storageUtils.setUser(result.data)
+              this.$router.push("/user/index")
             }else {
               this.$Message.error(result.message)
             }
-          } else {
-            // this.$Message.error('Fail!');
           }
         })
       }
