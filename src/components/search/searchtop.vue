@@ -5,13 +5,13 @@
         >
             <van-search
             v-model="value"
-            placeholder="请输入搜索关键词"
+            placeholder="Please enter search keywords"
             background="#fff"
             show-action
             @search="onSearch"
             slot="title"
             >
-                <div slot="action" @click="onSearch">搜索</div>
+                <div slot="action" @click="onSearch">Search</div>
             </van-search>
         </van-nav-bar>
         

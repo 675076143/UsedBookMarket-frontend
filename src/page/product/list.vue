@@ -1,200 +1,115 @@
 <template>
     <div class="product-list">
-        <searchtop/>
+        <van-nav-bar left-arrow class="product-serach"
+                     @click-left="onBack"
+        >
+            <van-search
+                v-model="keyword"
+                placeholder="Please enter search keywords"
+                show-action
+                slot="title"
+                @search="onSearch"
+        >
+            <div slot="action" @click="onSearch">Search</div>
+        </van-search>
+        </van-nav-bar>
         <div class="filterbar">
             <ul :class="filtersort?'show':''">
-                <li :class="filterindex==0?'selected':''" v-on:click="onFilterBar(0)"><span>{{filterindex==11?'价格最低':(filterindex==12?'价格最高':'综合')}}</span><van-icon name="arrow" class="down" /></li>
-                <li :class="filterindex==1?'selected':''" v-on:click="onFilterBar(1)"><span>销量</span></li>
-                <li :class="filterindex==2?'selected':''" v-on:click="onFilterBar(2)"><span>上新</span></li>
-                <li :class="filterindex==3?'selected':''" v-on:click="onFilterBar(3)"><span>筛选</span></li>
+                <li :class="filterindex==0?'selected':''" v-on:click="onFilterBar(0)"><span>{{filterindex==11?'lowest price':(filterindex==12?'highest price':'default')}}</span><van-icon name="arrow" class="down" /></li>
+                <li :class="filterindex==1?'selected':''" v-on:click="onFilterBar(1)"><span>sales</span></li>
+                <li :class="filterindex==2?'selected':''" v-on:click="onFilterBar(2)"><span>new</span></li>
+                <li :class="filterindex==3?'selected':''" v-on:click="onFilterBar(3)"><span>filters</span></li>
             </ul>
             <div :class="'item_options '+(filtersort?'show':'')">
                 <ul>
-                    <li :class="filterindex==10?'selected':''" v-on:click="onFilterBar(10)">综合</li>
-                    <li :class="filterindex==11?'selected':''"  v-on:click="onFilterBar(11)">价格最低</li>
-                    <li :class="filterindex==12?'selected':''" v-on:click="onFilterBar(12)">价格最高</li>
+                    <li :class="filterindex==10?'selected':''" v-on:click="onFilterBar(10)">default</li>
+                    <li :class="filterindex==11?'selected':''"  v-on:click="onFilterBar(11)">lowest price</li>
+                    <li :class="filterindex==12?'selected':''" v-on:click="onFilterBar(12)">highest price</li>
                 </ul>
             </div>
             <van-popup v-model="filtershow" position="right" class="filterlayer" >
                 <div class="filterInner" style="overflow-y: scroll;max-height: 100%;">
-                    <ul>
-                        <li>
-                            <van-cell title="清洁类型" is-link arrow-direction="down" />
-                        </li>
-                        <div style="clear: both;"></div>
-                        <div class="tags_selection">
-                            <div class="option">
-                                <a href="javascript:void 0;">牙龈护理111</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">抛光</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">清洁</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">正畸专用</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">敏感</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">亮白</a>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                    </ul>
-                    <ul>
-                        <li>
-                            <van-cell title="清洁类型" is-link arrow-direction="down" />
-                        </li>
-                        <div style="clear: both;"></div>
-                        <div class="tags_selection">
-                            <div class="option">
-                                <a href="javascript:void 0;">牙龈护理111</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">抛光</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">清洁</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">正畸专用</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">敏感</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">亮白</a>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                    </ul>
-                    <ul>
-                        <li>
-                            <van-cell title="清洁类型" is-link arrow-direction="down" />
-                        </li>
-                        <div style="clear: both;"></div>
-                        <div class="tags_selection">
-                            <div class="option">
-                                <a href="javascript:void 0;">牙龈护理111</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">抛光</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">清洁</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">正畸专用</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">敏感</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">亮白</a>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                    </ul>
-                    <ul>
-                        <li>
-                            <van-cell title="清洁类型" is-link arrow-direction="down" />
-                        </li>
-                        <div style="clear: both;"></div>
-                        <div class="tags_selection">
-                            <div class="option">
-                                <a href="javascript:void 0;">牙龈护理111</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">抛光</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">清洁</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">正畸专用</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">敏感</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">亮白</a>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                    </ul>
-                    <ul>
-                        <li>
-                            <van-cell title="清洁类型" is-link arrow-direction="down" />
-                        </li>
-                        <div style="clear: both;"></div>
-                        <div class="tags_selection">
-                            <div class="option">
-                                <a href="javascript:void 0;">牙龈护理111</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">抛光</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">清洁</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">正畸专用</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">敏感</a>
-                            </div>
-                            <div class="option ">
-                                <a href="javascript:void 0;">亮白</a>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                    </ul>
+                    <van-checkbox-group v-model="categoryID">
+                        <van-cell-group>
+                            <van-cell
+                                    v-for="(item,index) in categories"
+                                    clickable
+                                    :key="item.categoryID"
+                                    :title="item.categoryName"
+                                    @click="toggle(index)"
+                            >
+                                <van-checkbox slot="right-icon" :name="item.categoryID" ref="checkboxes" />
+                            </van-cell>
+                        </van-cell-group>
+                    </van-checkbox-group>
                     <div style="clear: both;"></div>
-                    <van-button size="large"  style="height: 40px;margin-bottom: 15px;line-height: 40px;">清楚选项</van-button>
+                    <van-button size="large"  style="height: 40px;margin-bottom: 15px;line-height: 40px;" @click="clear">Clear</van-button>
                     <div style="height:50px;"></div>
                 </div>
                 <div class="filterlayer_bottom_buttons">
-                    <span class="filterlayer_bottom_button cancel">取消</span>
-                    <span class="filterlayer_bottom_button confirm">确认</span>
+                    <span class="filterlayer_bottom_button cancel" @click="()=>{this.filtershow=!this.filtershow}">Cancel</span>
+                    <span class="filterlayer_bottom_button confirm" @click="onSearch">Confirm</span>
                 </div>
             </van-popup>
         </div>
-
-        <div v-for="(product,i) in products" :key="i">
-          <product-card :product='product' @click="showProduct(product)" />
-        </div>
+        <van-card v-for="item in books"
+                :price="item.price"
+                :desc="item.bookDesc"
+                :title="item.bookName"
+                :thumb="BASE_IMG_URL+item.image"
+        />
     </div>
 </template>
 
 <script>
+  import { Search } from "vant";
 import searchtop from "../../components/search/searchtop";
+import {reqCategories, reqSearchBooks} from "../../api";
+import {BASE_IMG_URL} from "../../utils/constants";
 
 export default {
+  async created() {
+    const result = await reqCategories(this);
+    if(result.code === '200'){
+      this.categories = result.data;
+    }
+    console.log(this.$route.params.keyword)
+    this.keyword = this.$route.params.keyword;
+    const resBooks = await reqSearchBooks(this.$route.params.keyword,this.result,null,null,this);
+    if(resBooks.code === '200'){
+      this.books = resBooks.data;
+    }else {
+      this.books = [];
+    }
+  },
   components: {
-    searchtop
+    searchtop,
+    [Search.name]: Search
   },
   data() {
     return {
-      value: "",
+      keyword: "",
       filterindex: 0,
       filtersort: false,
       filtershow: false,
-
-            products:[
-                {
-                    id:1,
-                    imageURL:'https://images-cn.ssl-images-amazon.com/images/I/71PXdkcP6gL._AC_UY218_ML3_.jpg',
-                    title:'THE OLD MAN AND THE SEA',
-                    price:'13.00',
-                }
-            ]
+      categories:[],
+      list: ['a', 'b'],
+      categoryID: [],
+      BASE_IMG_URL,
+      books:[],
+      order:null,
+      sort:null,
     };
   },
   methods: {
+    clear(){
+      this.categoryID = []
+    },
+    toggle(index) {
+      this.$refs.checkboxes[index].toggle();
+    },
     onFilterBar(value) {
+      console.log(value)
       if (value == 0) {
         this.filtersort = !this.filtersort;
       } else if (value == 3) {
@@ -203,9 +118,35 @@ export default {
         this.filtersort = false;
         this.filterindex = value;
       }
+      if(value === 10){
+        this.order = null
+        this.onSearch();
+      }else if(value === 11){
+        this.order = 'price';
+        this.sort = 'asc';
+        this.onSearch();
+      }else if(value === 12){
+        this.order = 'price';
+        this.sort = 'desc';
+        this.onSearch();
+      }
     },
     showProduct(product){
         this.$router.push('/product/'+product.id);
+    },
+    onBack() {
+      history.back();
+    },
+    async onSearch(){
+      console.log('categoryID=>',this.categoryID);
+      const {keyword,categoryID,order,sort} = this;
+      const result = await reqSearchBooks(keyword,categoryID,order,sort,this);
+      if(result.code === '200'){
+        this.books = result.data;
+      }else {
+        this.books = [];
+      }
+      this.filtershow = false;
     }
   }
 };

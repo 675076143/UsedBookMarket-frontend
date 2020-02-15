@@ -19,7 +19,11 @@ export default {
     },
     methods: {
         onBack() {
-        history.back();
+          if(this.$route.name === 'cart'){
+            this.$router.push('/')
+          }else {
+            history.back();
+          }
         },
     }
 }

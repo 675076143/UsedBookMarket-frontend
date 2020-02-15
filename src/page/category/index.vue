@@ -84,6 +84,10 @@ export default {
   methods: {
     onSearch() {
       console.log(this.value);
+      this.$router.push({
+        name:'search',
+        params:{keyword:this.value}
+      })
     },
     async onClick(key) {
       console.log(key)

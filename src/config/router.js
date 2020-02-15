@@ -162,6 +162,7 @@ const routes = [
     }
   },
   {
+    name:'search',
     path: '/search',
     component: () => import('../page/product/list'),
     meta: {

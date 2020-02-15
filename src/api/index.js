@@ -60,3 +60,6 @@ export const reqModifyProfile = (userID,email,phone,balance,avatar,that)=>{
 export const reqUser = (userID,that)=>{
     return ajax(BASE_URL+"/api/user/user.php",{userID},'GET',that)
 }
+export const reqSearchBooks = (bookName,categoryID,order,sort,that) =>{
+    return ajax(BASE_URL+'/api/book/search.php',{bookName,categoryID,order,sort},'GET',that)
+}
