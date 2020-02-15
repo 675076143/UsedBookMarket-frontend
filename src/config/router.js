@@ -182,7 +182,7 @@ const routes = [
     name:'order',
     component: () => import('../page/order/order'),
     meta: {
-      title: '确认订单'
+      title: 'confirm order'
     }
   },
   {
@@ -190,6 +190,13 @@ const routes = [
     component: () => import('../page/category/index'),
     meta: {
       title: 'Category'
+    }
+  },
+  {
+    name: 'communicateService',
+    component: () => import('../page/communicateService/index'),
+    meta: {
+      title: 'CommunicateService'
     }
   },
 ];

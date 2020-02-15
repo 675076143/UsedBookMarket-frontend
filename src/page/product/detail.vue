@@ -5,7 +5,6 @@
 <!--      <van-swipe-item v-for="thumb in book.image" :key="BASE_IMG_URL+thumb">-->
 
         <img :src="BASE_IMG_URL+book.image" >
-      </van-swipe-item>
     </van-swipe>
 
     <van-cell-group>
@@ -21,7 +20,7 @@
         <div v-html="book.detail"></div>
     </div>
       <van-goods-action>
-          <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" />
+          <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" @click="cs" />
           <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
           <van-goods-action-icon icon="star-o" text="Star" color="#ff5000" @click="sorry" />
           <van-goods-action-button type="warning" text="add to cart" @click="handleAddToCart"/>
@@ -62,40 +61,22 @@ export default {
       showCustom: false,
       showStepper: false,
       closeOnClickOverlay: true,
-      initialSku: {
-        s1: '30349',
-        s2: '1193'
-      },
-      customSkuValidator: (component) => {
-        return '请选择xxx';
-      },
-      customStepperConfig: {
-        quotaText: '单次限购100件',
-        stockFormatter: (stock) => `剩余${stock}间`,
-        handleOverLimit: (data) => {
-          const { action, limitType, quota } = data;
-          if (action === 'minus') {
-            this.$toast('至少选择一件商品');
-          } else if (action === 'plus') {
-            if (limitType === LIMIT_TYPE.QUOTA_LIMIT) {
-              this.$toast(`限购${quota}件`);
-            } else {
-              this.$toast('库存不够了~~');
-            }
-          }
-        }
-      },
-      messageConfig: {
-        uploadImg: (file, img) => {
-          return new Promise(resolve => {
-            setTimeout(() => resolve(img), 1000);
-          });
-        },
-        uploadMaxSize: 3
-      }
     };
   },
   methods: {
+    cs(){
+      const {userID} = store.state.user;
+      if(this.book.userID === userID ){
+        this.$toast.fail("Why are you talking to yourself?");
+      }else {
+        this.$router.push({
+          name:'communicateService',
+          params:{
+            to:this.book.userID
+          }
+        })
+      }
+    },
     async handleAddToCart(){
       const {userID} = store.state.user;
       const {bookID} = this.book;
