@@ -20,10 +20,31 @@
                         :src="BASE_IMG_URL+item.buyerAvatar"
                         style="margin-right: 10px"
                 />
-                <span>{{item.buyerName}} bought your book</span><br/>
+                <span>{{item.buyerName}} {{item.orderSubState==="2"||item.orderSubState==="1"?"bought":"received"}} your book</span><br/>
                 <van-button size="mini" type="info" @click="e=>{handleShipped(e,item.orderSubID)}" v-if="item.orderSubState==='1'">Shipped</van-button>
                 <span  v-if="item.orderSubState==='2'">waiting for received...</span>
-                <van-button size="mini" type="primary" @click="e=>{handleRating(e,item.orderSubID)}" v-if="item.orderSubState==='3'">Rate</van-button>
+                <div v-if="item.buyerRating">
+                    Re:
+                    <van-rate v-if="item.buyerRating"
+                              v-model="item.buyerRating"
+                              icon="like"
+                              void-icon="like-o"
+                              style="margin: 10px"
+                              color="#ee0a24"
+                    />
+                    <p v-if="item.buyerRatingDesc" style="margin-right: 10px">{{item.buyerRatingDesc}}</p>
+                </div>
+                <van-button size="mini" type="primary" @click="e=>{handleRating(e,item.orderSubID)}" v-if="item.orderSubState==='3'&&!item.sellerRating">Rate</van-button>
+                <div v-if="item.sellerRating">
+                    To:
+                    <van-rate v-if="item.sellerRating"
+                              v-model="item.sellerRating"
+                              icon="like"
+                              void-icon="like-o"
+                              style="margin: 10px"
+                    />
+                    <p v-if="item.sellerRatingDesc" style="margin-right: 10px">{{item.sellerRatingDesc}}</p>
+                </div>
             </div>
         </van-card>
         <van-popup v-model="show" position="bottom">
@@ -35,7 +56,8 @@
                     style="margin: 10px"
             />
                 <van-field
-                        v-model="message"
+                        required
+                        v-model="ratingDesc"
                         rows="2"
                         autosize
                         label="rate text"
@@ -43,7 +65,7 @@
                         placeholder="please input rate text"
                         maxlength="50"
                 />
-                <van-button type="info" style="width: 100%;" @click="modifyBook">Rate</van-button>
+                <van-button type="info" style="width: 100%;" @click="handleSendRate">Rate</van-button>
         </van-popup>
 
     </div>
@@ -55,7 +77,7 @@
     reqCategories,
     reqDeleteBook,
     reqModifyBook,
-    reqPublished, reqShipped,
+    reqPublished, reqSellerRating, reqShipped,
     reqSold,
     reqUpload, reqUser
   } from "../../api";
@@ -104,6 +126,18 @@
       handleRating(e,orderSubID){
         e.stopPropagation();
         this.show = true;
+        this.orderSubID = orderSubID;
+      },
+      async handleSendRate(){
+        const {rating,ratingDesc,orderSubID} = this;
+        if (ratingDesc === "")return ;
+        const result = await reqSellerRating(orderSubID,rating,ratingDesc,this);
+        if(result.code === '200'){
+          this.show = false;
+          this.$toast.success("successful rate!");
+          this.initPublishedList();
+        }
+
       }
     },
     data(){
@@ -114,7 +148,9 @@
         currentBook:{},
         categories: [],
         fileList: [],
-        rating:0
+        rating:5,
+        orderSubID:0,
+        ratingDesc:""
       }
     },
     async created() {
@@ -124,5 +160,4 @@
 </script>
 
 <style scoped>
-
 </style>

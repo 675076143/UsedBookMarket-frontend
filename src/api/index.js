@@ -78,3 +78,9 @@ export const reqShipped = (orderSubID,that)=>{
 export const reqReceived = (orderSubID,that)=>{
     return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,orderSubState: 3},'PUT',that)
 }
+export const reqSellerRating = (orderSubID,sellerRating,sellerRatingDesc,that)=>{
+    return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,sellerRating,sellerRatingDesc,orderSubState: 3},'PUT',that)
+}
+export const reqBuyerRating = (orderSubID,buyerRating,buyerRatingDesc,that)=>{
+    return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,buyerRating,buyerRatingDesc,orderSubState: 3},'PUT',that)
+}
