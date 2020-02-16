@@ -14,8 +14,19 @@
                           :thumb="BASE_IMG_URL+orderSub.image"
                 >
                     <div slot="footer">
-                        <div v-if="orderSub.buyerRating">
+                        <div v-if="orderSub.sellerRating">
                             Merchant Reply:
+                            <van-rate v-if="orderSub.sellerRating"
+                                      v-model="orderSub.sellerRating"
+                                      icon="like"
+                                      void-icon="like-o"
+                                      style="margin: 10px"
+                            />
+                            <p v-if="orderSub.sellerRatingDesc" style="margin-right: 10px">{{orderSub.sellerRatingDesc}}</p>
+
+                        </div>
+                        <div v-if="orderSub.buyerRating">
+                            To:
                             <van-rate v-if="orderSub.buyerRating"
                                       v-model="orderSub.buyerRating"
                                       icon="like"
@@ -23,19 +34,9 @@
                                       style="margin: 10px"
                                       color="#ee0a24"
                             />
-                            <p v-if="orderSub.buyerRatingDesc" style="margin-right: 10px">{{item.buyerRatingDesc}}</p>
+                            <p v-if="orderSub.buyerRatingDesc" style="margin-right: 10px">{{orderSub.buyerRatingDesc}}</p>
                         </div>
-                        <van-button size="mini" type="primary" @click="e=>{handleRating(e,orderSub.orderSubID)}" v-if="orderSub.orderSubState==='3'&&!orderSub.sellerRating">Rate</van-button>
-                        <div v-if="orderSub.sellerRating">
-                            To:
-                            <van-rate v-if="orderSub.sellerRating"
-                                      v-model="orderSub.sellerRating"
-                                      icon="like"
-                                      void-icon="like-o"
-                                      style="margin: 10px"
-                            />
-                            <p v-if="orderSub.sellerRatingDesc" style="margin-right: 10px">{{item.sellerRatingDesc}}</p>
-                        </div>
+                        <van-button size="mini" type="primary" @click="e=>{handleRating(e,orderSub.orderSubID)}" v-if="orderSub.orderSubState==='3'&&!orderSub.buyerRating">Rate</van-button>
                     </div>
                 </van-card>
             </template>
