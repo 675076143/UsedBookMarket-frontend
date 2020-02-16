@@ -135,6 +135,13 @@ const routes = [
     }
   },
   {
+    path: '/user/completed',
+    component: () => import('../page/user/order/completed'),
+    meta: {
+      title: 'Completed'
+    }
+  },
+  {
     path: '/user/order/info/:id',
     component: () => import('../page/user/order/info'),
     meta: {

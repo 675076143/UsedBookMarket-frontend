@@ -31,7 +31,7 @@ export const reqPublished = (userID,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',{userID},'GET',that)
 }
 export const reqSold= (userID,that)=>{
-    return ajax(BASE_URL+'/api/book/book.php',{userID,orderSubState:0},'GET',that)
+    return ajax(BASE_URL+'/api/book/book.php',{userID,orderSubState:'sold'},'GET',that)
 }
 export const reqModifyBook = (book,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',book,'PUT',that)

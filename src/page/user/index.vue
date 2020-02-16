@@ -62,7 +62,7 @@
               <div>To be received</div>
             </van-col>
           </router-link>
-          <router-link  to="/user/order/2" disabled>
+          <router-link  to="/user/completed">
             <van-col span="6">
               <van-icon name="point-gift">
               </van-icon>
