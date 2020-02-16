@@ -41,9 +41,9 @@
                         autosize
                         label="描述"
                         type="textarea"
-                        placeholder="品牌型号，新旧程度，入手渠道，转手原因"
+                        placeholder="Old and new degree, starting channel, transfer reason"
                 />
-                <van-field v-model="currentBook.price" type="number" label="价格" />
+                <van-field v-model="currentBook.price" type="number" label="price" />
 
                 <van-dropdown-menu direction="up">
                     <van-dropdown-item v-model="currentBook.categoryID" :options="categories" />

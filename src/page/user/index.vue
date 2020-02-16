@@ -29,7 +29,7 @@
               <div>published</div>
             </van-col>
           </router-link>
-          <router-link  to="/user/order/2" disabled>
+          <router-link  to="/sold">
             <van-col span="6">
               <van-icon name="todo-list-o" />
               <div>sold</div>
@@ -40,7 +40,7 @@
       <van-cell-group class="user-group">
         <van-cell title="Orders" value="Check all orders" is-link  />
         <van-row class="user-links">
-          <router-link to="/user/order">
+          <router-link to="/user/payment">
             <van-col span="6">
               <van-icon name="pending-payment">
                 <van-info :info="UnPayTotal"  />
@@ -48,12 +48,18 @@
               <div>Pending payment</div>
             </van-col>
           </router-link>
-          <router-link  to="/user/order/2" disabled>
+          <router-link  to="/user/ship">
             <van-col span="6">
               <van-icon name="logistics">
-                <van-info :info="UnRecieveTotal"   />
               </van-icon>
               <div>To be shipped</div>
+            </van-col>
+          </router-link>
+          <router-link  to="/user/receive">
+            <van-col span="6">
+              <van-icon name="records">
+              </van-icon>
+              <div>To be received</div>
             </van-col>
           </router-link>
           <router-link  to="/user/order/2" disabled>

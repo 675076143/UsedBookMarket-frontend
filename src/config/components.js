@@ -40,7 +40,7 @@ import {
   ActionSheet,
   Sidebar,
   SidebarItem, Card, Stepper, SubmitBar, DropdownMenu,
-  NavBar, Popup, Switch, PullRefresh,Image
+  NavBar, Popup, Switch, PullRefresh,Image,Rate
 } from 'vant'
 
 const components=[
@@ -62,7 +62,7 @@ const components=[
     Tabs,
     Uploader,
     GoodsAction,GoodsActionIcon,GoodsActionButton,Card,Stepper,SubmitBar,
-    headerNav, navigate,productcard,DropdownMenu,Toast,NavBar,Popup,Switch,PullRefresh,Image
+    headerNav, navigate,productcard,DropdownMenu,Toast,NavBar,Popup,Switch,PullRefresh,Image,Rate
 ]
 
 export default (Vue)=>{

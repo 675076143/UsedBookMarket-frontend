@@ -45,6 +45,14 @@ const routes = [
   },
 
   {
+    path: '/sold',
+    component: () => import('../page/sell/Sold'),
+    meta: {
+      title: 'Sold'
+    }
+  },
+
+  {
 		path: '/user/index',
     component: () => import('../page/user/index'),
     name: 'user',
@@ -106,10 +114,24 @@ const routes = [
     }
   },
   {
-    path: '/user/order/:id',
+    path: '/user/payment',
     component: () => import('../page/user/order/list'),
     meta: {
       title: 'Order'
+    }
+  },
+  {
+    path: '/user/ship',
+    component: () => import('../page/user/order/shipList'),
+    meta: {
+      title: 'To be shipped'
+    }
+  },
+  {
+    path: '/user/receive',
+    component: () => import('../page/user/order/receiveList'),
+    meta: {
+      title: 'To be received'
     }
   },
   {

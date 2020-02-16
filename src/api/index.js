@@ -30,6 +30,9 @@ export const reqUpload = (file,that)=>{
 export const reqPublished = (userID,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',{userID},'GET',that)
 }
+export const reqSold= (userID,that)=>{
+    return ajax(BASE_URL+'/api/book/book.php',{userID,orderSubState:0},'GET',that)
+}
 export const reqModifyBook = (book,that)=>{
     return ajax(BASE_URL+'/api/book/book.php',book,'PUT',that)
 }
@@ -68,4 +71,10 @@ export const reqMessages = (from,to,that)=>{
 }
 export const reqSendMessage = (from,to,message,that)=>{
     return ajax(BASE_URL+'/api/message/message.php',{from,to,message},'POST',that)
+}
+export const reqShipped = (orderSubID,that)=>{
+    return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,orderSubState: 2},'PUT',that)
+}
+export const reqReceived = (orderSubID,that)=>{
+    return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,orderSubState: 3},'PUT',that)
 }

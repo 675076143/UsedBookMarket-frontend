@@ -73,6 +73,7 @@ export default {
           const res = await reqPayOrder(result.data.orderID,userID,this);
           if(res.code === '200'){
             this.$toast.success(res.message)
+            this.$router.push("/user/ship");
           }else {
             this.$toast.fail(res.message)
           }
