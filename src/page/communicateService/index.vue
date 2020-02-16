@@ -69,6 +69,7 @@
       },
     },
     async created() {
+      console.log("params=>",this.$route.params)
       this.from = store.state.user.userID;
       this.fromAvatar = store.state.user.avatar;
       console.log(this.fromAvatar)

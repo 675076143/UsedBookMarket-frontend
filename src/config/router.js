@@ -194,9 +194,18 @@ const routes = [
   },
   {
     name: 'communicateService',
+    path:'/communicateService',
     component: () => import('../page/communicateService/index'),
     meta: {
       title: 'CommunicateService'
+    }
+  },
+  {
+    name: 'messages',
+    path:'/user/messages',
+    component: () => import('../page/communicateService/list'),
+    meta: {
+      title: 'Messages'
     }
   },
 ];

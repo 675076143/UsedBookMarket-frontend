@@ -76,12 +76,12 @@
       <van-cell-group class="user-group">
         <van-cell title="My service" />
         <van-row class="user-links">
-          <!--        <router-link  to="/user/coupon">-->
-          <!--          <van-col span="6">-->
-          <!--            <van-icon name="coupon" />-->
-          <!--            <div>我的优惠券</div>-->
-          <!--          </van-col>-->
-          <!--        </router-link>-->
+          <router-link  to="/user/messages">
+            <van-col span="6">
+              <van-icon name="chat-o" />
+              <div>Message</div>
+            </van-col>
+          </router-link>
           <router-link  to="/user/favorite" disabled>
             <van-col span="6">
               <van-icon name="like-o" />
