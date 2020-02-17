@@ -144,7 +144,7 @@
         if(result.code === '200'){
           this.show = false;
           this.$toast.success("successful rate!");
-          this.initPublishedList();
+          this.initData();
         }
 
       }
