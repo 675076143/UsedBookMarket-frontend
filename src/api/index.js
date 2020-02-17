@@ -84,3 +84,6 @@ export const reqSellerRating = (orderSubID,sellerRating,sellerRatingDesc,that)=>
 export const reqBuyerRating = (orderSubID,buyerRating,buyerRatingDesc,that)=>{
     return ajax(BASE_URL+'/api/order/afterSold.php',{orderSubID,buyerRating,buyerRatingDesc,orderSubState: 3},'PUT',that)
 }
+export const reqRating = (userID,that)=>{
+    return ajax(BASE_URL+'/api/user/rating.php',{userID},'GET',that);
+}
