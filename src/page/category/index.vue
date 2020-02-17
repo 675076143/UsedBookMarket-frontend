@@ -1,11 +1,13 @@
 <template>
     <div>
+        <van-action-sheet v-model="show" :actions="actions" @select="onSelect" description="Choose your school" />
         <van-search
         v-model="value"
-        placeholder="Please enter search keywords"
+        placeholder="keywords"
         show-action
         @search="onSearch"
         >
+        <span slot="label" @click="changeSchool">{{school}}</span>
         <div slot="action" @click="onSearch">Search</div>
         </van-search>
         <van-sidebar :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
@@ -40,6 +42,8 @@ import { Search } from "vant";
 import {reqBooksByCategory, reqCategories, reqProducts} from "../../api";
 import  banner from '../../assets/images/banner.jpg'
 import {BASE_IMG_URL} from "../../utils/constants";
+import store from '../../store'
+import storageUtils from "../../utils/storageUtils";
 export default {
   name: "userindex",
   components: {
@@ -51,6 +55,14 @@ export default {
    */
   async created() {
     console.log('created!')
+    //从localStorage中读取学校
+    if(storageUtils.getSchool()){
+      console.log("getschoo=>",storageUtils.getSchool())
+      this.show = false;
+      store.commit('setSchool',storageUtils.getSchool());
+      console.log(store.state.school)
+      this.school = storageUtils.getSchool();
+    }
     //获取所有分类信息
     const result = await reqCategories(this)
     if(result.code==='200'){
@@ -78,10 +90,27 @@ export default {
         categoryID:null
       }],
       currentType:'All',
-      bookList:[]
+      bookList:[],
+      school:store.state.school,
+      show:true,
+      actions: [
+        { name: 'UM MACAU' },
+        { name: 'IFT' },
+        { name: 'IPM'},
+        { name: 'MUST'}
+      ]
     };
   },
   methods: {
+    changeSchool(){
+      this.show = true;
+    },
+    onSelect(item) {
+      this.show = false;
+      store.commit('setSchool',item.name);
+      storageUtils.setSchool(item.name)
+      this.school = item.name;
+    },
     onSearch() {
       console.log(this.value);
       this.$router.push({
@@ -112,7 +141,8 @@ export default {
       }else {
         this.isLoading = false
       }
-    }
+    },
+
   }
 };
 </script>
