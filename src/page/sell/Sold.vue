@@ -6,47 +6,50 @@
                 left-arrow
                 @click-left="()=>{this.$router.back()}"
         />
-        <van-card v-for="item in sold"
-                @click="redirect(item)"
-                :price="item.price"
-                :desc="item.bookDesc"
-                :title="item.bookName"
-                :thumb="BASE_IMG_URL+item.image">
-            <div slot="footer">
-                <van-image
-                        round
-                        width="30"
-                        height="30"
-                        :src="BASE_IMG_URL+item.buyerAvatar"
-                        style="margin-right: 10px"
-                />
-                <span>{{item.buyerName}} {{item.orderSubState==="2"||item.orderSubState==="1"?"bought":"received"}} your book</span><br/>
-                <van-button size="mini" type="info" @click="e=>{handleShipped(e,item.orderSubID)}" v-if="item.orderSubState==='1'">Shipped</van-button>
-                <span  v-if="item.orderSubState==='2'">waiting for received...</span>
-                <div v-if="item.buyerRating">
-                    Re:
-                    <van-rate v-if="item.buyerRating"
-                              v-model="item.buyerRating"
-                              icon="like"
-                              void-icon="like-o"
-                              style="margin: 10px"
-                              color="#ee0a24"
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+            <van-card v-for="item in sold"
+                      @click="redirect(item)"
+                      :price="item.price"
+                      :desc="item.bookDesc"
+                      :title="item.bookName"
+                      :thumb="BASE_IMG_URL+item.image">
+                <div slot="footer">
+                    <van-image
+                            round
+                            width="30"
+                            height="30"
+                            :src="BASE_IMG_URL+item.buyerAvatar"
+                            style="margin-right: 10px"
                     />
-                    <p v-if="item.buyerRatingDesc" style="margin-right: 10px">{{item.buyerRatingDesc}}</p>
+                    <span>{{item.buyerName}} {{item.orderSubState==="2"||item.orderSubState==="1"?"bought":"received"}} your book</span><br/>
+                    <van-button size="mini" type="info" @click="e=>{handleShipped(e,item.orderSubID)}" v-if="item.orderSubState==='1'">Shipped</van-button>
+                    <span  v-if="item.orderSubState==='2'">waiting for received...</span>
+                    <div v-if="item.buyerRating">
+                        Re:
+                        <van-rate v-if="item.buyerRating"
+                                  v-model="item.buyerRating"
+                                  icon="like"
+                                  void-icon="like-o"
+                                  style="margin: 10px"
+                                  color="#ee0a24"
+                        />
+                        <p v-if="item.buyerRatingDesc" style="margin-right: 10px">{{item.buyerRatingDesc}}</p>
+                    </div>
+                    <van-button size="mini" type="primary" @click="e=>{handleRating(e,item.orderSubID)}" v-if="item.orderSubState==='3'&&!item.sellerRating">Rate</van-button>
+                    <div v-if="item.sellerRating">
+                        To:
+                        <van-rate v-if="item.sellerRating"
+                                  v-model="item.sellerRating"
+                                  icon="like"
+                                  void-icon="like-o"
+                                  style="margin: 10px"
+                        />
+                        <p v-if="item.sellerRatingDesc" style="margin-right: 10px">{{item.sellerRatingDesc}}</p>
+                    </div>
                 </div>
-                <van-button size="mini" type="primary" @click="e=>{handleRating(e,item.orderSubID)}" v-if="item.orderSubState==='3'&&!item.sellerRating">Rate</van-button>
-                <div v-if="item.sellerRating">
-                    To:
-                    <van-rate v-if="item.sellerRating"
-                              v-model="item.sellerRating"
-                              icon="like"
-                              void-icon="like-o"
-                              style="margin: 10px"
-                    />
-                    <p v-if="item.sellerRatingDesc" style="margin-right: 10px">{{item.sellerRatingDesc}}</p>
-                </div>
-            </div>
-        </van-card>
+            </van-card>
+        </van-pull-refresh>
+
         <van-popup v-model="show" position="bottom">
             <h2 style="margin: 10px">Rate Buyer</h2>
             <van-rate
@@ -138,6 +141,10 @@
           this.initPublishedList();
         }
 
+      },
+      onRefresh() {
+        this.initPublishedList();
+        this.isLoading = false;
       }
     },
     data(){
@@ -150,7 +157,8 @@
         fileList: [],
         rating:5,
         orderSubID:0,
-        ratingDesc:""
+        ratingDesc:"",
+        isLoading:false,
       }
     },
     async created() {
