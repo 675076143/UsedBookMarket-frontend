@@ -7,7 +7,7 @@
         show-action
         @search="onSearch"
         >
-        <span slot="label" @click="changeSchool">{{school}}</span>
+        <span slot="label" @click="changeSchool">{{school.name}}</span>
         <div slot="action" @click="onSearch">Search</div>
         </van-search>
         <van-sidebar :active-key="activeKey" class="tab" :style="'height:'+fullHeight+'px'">
@@ -60,7 +60,6 @@ export default {
       console.log("getschoo=>",storageUtils.getSchool())
       this.show = false;
       store.commit('setSchool',storageUtils.getSchool());
-      console.log(store.state.school)
       this.school = storageUtils.getSchool();
     }
     //获取所有分类信息
@@ -94,10 +93,10 @@ export default {
       school:store.state.school,
       show:true,
       actions: [
-        { name: 'UM MACAU' },
-        { name: 'IFT' },
-        { name: 'IPM'},
-        { name: 'MUST'}
+        { id:1,name: 'UM MACAU' },
+        { id:2,name: 'IFT' },
+        { id:3,name: 'IPM'},
+        { id:4,name: 'MUST'}
       ]
     };
   },
@@ -107,9 +106,11 @@ export default {
     },
     onSelect(item) {
       this.show = false;
-      store.commit('setSchool',item.name);
-      storageUtils.setSchool(item.name)
-      this.school = item.name;
+      store.commit('setSchool',item);
+      storageUtils.setSchool(item);
+      this.school = item;
+      this.activeKey = "0";
+      this.getBooks();
     },
     onSearch() {
       console.log(this.value);
@@ -122,26 +123,22 @@ export default {
       console.log(key)
       this.activeKey = key.categoryID;
       this.currentType = key.categoryName;
-      let result;
-      if (key==='All'){
-        result = await reqBooksByCategory(null,this)
-      }else {
-        result = await reqBooksByCategory(key.categoryID,this)
-      }
-      if(result.code==='200'){
-        this.bookList = result.data
-      }
+      this.getBooks(key==='All'?null:key.categoryID);
     },
     async onRefresh(){
       //获取所有书籍
-      const resultBooks = await reqBooksByCategory(null,this)
-      if(resultBooks.code==='200'){
-        this.bookList = resultBooks.data
-        this.isLoading = false
-      }else {
-        this.isLoading = false
-      }
+      await this.getBooks(this.activeKey);
+      this.isLoading = false
     },
+
+    async getBooks(categoryID=null){
+      //从localStorage中读取学校
+      const schoolID = storageUtils.getSchool().id;
+      const result = await reqBooksByCategory(categoryID,schoolID,this);
+      if(result.code==='200'){
+        this.bookList = result.data
+      }
+    }
 
   }
 };
