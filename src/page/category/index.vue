@@ -70,10 +70,7 @@ export default {
       }
     }
     //获取所有书籍
-    const resultBooks = await reqBooksByCategory(null,this)
-    if(resultBooks.code==='200'){
-      this.bookList = resultBooks.data
-    }
+    this.getBooks();
   },
   data() {
     return {

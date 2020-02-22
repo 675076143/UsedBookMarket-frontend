@@ -52,12 +52,14 @@
                 </div>
             </van-popup>
         </div>
-        <van-card v-for="item in books"
-                :price="item.price"
-                :desc="item.bookDesc"
-                :title="item.bookName"
-                :thumb="BASE_IMG_URL+item.image"
-        />
+        <router-link :to="'/product/:'+item.bookID"  v-for="item in books">
+            <van-card
+                    :price="item.price"
+                    :desc="item.bookDesc"
+                    :title="item.bookName"
+                    :thumb="BASE_IMG_URL+item.image"
+            />
+        </router-link>
     </div>
 </template>
 

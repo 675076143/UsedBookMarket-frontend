@@ -2,14 +2,14 @@
   <div>
     <div class="user-profile">
       <div class="user-profile-avatar">
-        <a href="/#/user/info">
+        <router-link  to="/user/info">
           <img :src="logged?BASE_IMG_URL+user.avatar:avatar" alt="Avatar">
-        </a>
+        </router-link>
       </div>
       <div class="user-profile-username">
-        <a href="/#/user/info">
+        <router-link  to="/user/info">
           <span class="m-nick">{{user.userName}}</span>
-        </a>
+        </router-link>
       </div>
     </div>
     <div v-if="logged">

@@ -14,10 +14,21 @@
 
 <script>
 import store from '../../../store'
+import {reqUser} from "../../../api";
+import storageUtils from "../../../utils/storageUtils";
 export default {
+  async created() {
+    const {userID} = storageUtils.getUser();
+    const result = await reqUser(userID,this);
+    if(result.code==='200'){
+      store.commit('setUser',result.data);
+      storageUtils.setUser(result.data)
+      this.user = result.data;
+    }
+  },
   data(){
     return{
-      user:store.state.user
+      user:{}
     }
   }
 }
