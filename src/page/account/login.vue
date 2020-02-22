@@ -12,11 +12,9 @@
                     <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </Input>
             </FormItem>
-            <FormItem class="login-form-item">
-                <van-button class="login-btn" @click="handleSubmit('formInline')"type="primary">Signin</van-button>
-                <van-button class="login-btn" type="warning" to="/register">Register</van-button>
-            </FormItem>
         </Form>
+        <van-button class="login-btn" @click="()=>{handleSubmit('formInline')}"type="primary">Signin</van-button>
+        <van-button class="login-btn" type="warning" to="/register">Register</van-button>
     </div>
 </template>
 
@@ -44,7 +42,8 @@
       }
     },
     methods: {
-      handleSubmit(name) {
+      async handleSubmit(name) {
+        // async :false;
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             //获取数据
@@ -85,11 +84,11 @@
             .login-form-item{
                 height: 49px;
             }
-            .login-btn{
-                width: 100%;
-                height: 49px;
-                margin-bottom: 10px;
-            }
         }
+    }
+    .login-btn{
+        width: 80%;
+        height: 49px;
+        margin-bottom: 10px;
     }
 </style>
