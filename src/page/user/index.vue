@@ -12,6 +12,7 @@
         </router-link>
       </div>
     </div>
+    <a href=""></a>
     <div v-if="logged">
       <van-cell-group class="user-group">
         <van-cell title="Sell" />
@@ -88,16 +89,16 @@
               <div>Message</div>
             </van-col>
           </router-link>
+          <router-link  to="/user/address">
+            <van-col span="6" >
+              <van-icon name="location"/>
+              <div>Address</div>
+            </van-col>
+          </router-link>
           <router-link  to="/user/favorite" disabled>
             <van-col span="6">
               <van-icon name="like-o" />
               <div>Stars</div>
-            </van-col>
-          </router-link>
-          <router-link  to="/user/address" disabled>
-            <van-col span="6" >
-              <van-icon name="location"/>
-              <div>Address</div>
             </van-col>
           </router-link>
         </van-row>

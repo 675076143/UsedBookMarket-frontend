@@ -92,6 +92,7 @@ const routes = [
     }
   },
   {
+    name:'editAddress',
     path: '/user/address/edit',
     component: () => import('../page/user/address/edit'),
     meta: {

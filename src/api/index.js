@@ -90,3 +90,15 @@ export const reqRating = (userID,that)=>{
 export const reqCancelOrder = (orderID,that)=>{
     return ajax(BASE_URL+'/api/order/order.php',orderID,'DELETE',that)
 }
+export const reqAddresses = (userID,that,isDefault=null,)=>{
+    return ajax(BASE_URL+'/api/address/address.php',{userID,isDefault},'GET',that);
+}
+export const reqUpdateAddress = (address,that)=>{
+    return ajax(BASE_URL+'/api/address/address.php',address,'PUT',that)
+}
+export const reqAddAddress = (address,that)=>{
+    return ajax(BASE_URL+'/api/address/address.php',address,'POST',that)
+}
+export const reqDeleteAddress = (address,that)=>{
+    return ajax(BASE_URL+'/api/address/address.php',address,'DELETE',that)
+}

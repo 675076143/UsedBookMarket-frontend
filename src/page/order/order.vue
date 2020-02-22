@@ -6,14 +6,14 @@
       :border="false"
       class="contact-card"
       is-link
-      to="/user/address?id=2"
+      to="/user/address"
     >
-      <template v-if="type === 'add'">
-        <strong>choose address</strong>
+      <template v-if="address.name">
+        <strong>{{address.name}}</strong>
+        <div>{{address.address}}</div>
       </template>
       <template v-else>
-        <strong>Sheng 138****6520</strong>
-        <div>XXXXXXXXXXXXXXXXXX</div>
+        <strong>choose address</strong>
       </template>
     </van-cell>
       <van-card v-for="item in initOrderList"
@@ -45,19 +45,25 @@
 
 <script>
 import {BASE_IMG_URL} from "../../utils/constants";
-import {reqPayOrder, reqSubmitOrder} from "../../api";
+import {reqAddresses, reqPayOrder, reqSubmitOrder} from "../../api";
 import store from '../../store';
 
 export default {
   data() {
     return {
-      type: "add1",
       initOrderList: this.$route.params.initOrderList,
-      BASE_IMG_URL
+      BASE_IMG_URL,
+      address:{}
     };
   },
-  created() {
+  async created() {
     if(!this.$route.params.initOrderList) this.$router.push("/");
+    // get default address
+    const {userID} = store.state.user;
+    const result = await reqAddresses(userID,this,true);
+    if(result.code==='200'){
+      this.address = result.data[0]
+    }
   },
   methods: {
     async onSubmit() {
