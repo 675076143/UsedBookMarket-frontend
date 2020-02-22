@@ -3,6 +3,7 @@
         <van-nav-bar
                 title="Add Selling"
                 left-text="back"
+                :right-text="school.name"
                 left-arrow
                 @click-left="()=>{this.$router.back()}"
         />
@@ -14,6 +15,8 @@
                     autosize
                     label="describe"
                     type="textarea"
+                    maxlength="255"
+                    show-word-limit
                     placeholder="Old and new degree, starting channel, transfer reason"
             />
             <van-field v-model="price" type="number" label="price" />
@@ -29,6 +32,7 @@
 <script>
   import {reqAddSellingBook, reqCategories, reqUpload} from "../../api";
 import store from '../../store'
+  import storageUtils from "../../utils/storageUtils";
   export default {
     name: "AddSelling",
     data () {
@@ -39,7 +43,8 @@ import store from '../../store'
         categoryID: '1',
         categories: [],
         fileList: [],
-        image:''
+        image:'',
+        school:storageUtils.getSchool()
       }
     },
     methods: {
@@ -58,14 +63,16 @@ import store from '../../store'
       },
       async addSellingBook(){
         console.log(this.image)
-        const {bookName,bookDesc,price,categoryID,image} = this;
+        const {bookName,bookDesc,price,categoryID,image,school} = this;
+        const {id:schoolID} = school;
         const {userID} = store.state.user
         this.$toast.loading('发布中')
         const result = await reqAddSellingBook({
-          bookName,bookDesc,price,image,categoryID,userID
+          bookName,bookDesc,price,image,categoryID,userID,schoolID,
         },this);
         if(result.code==='200'){
           this.$toast.success('发布成功')
+          this.$router.push("/published")
         }else {
           this.$toast.fail('发布失败')
         }
