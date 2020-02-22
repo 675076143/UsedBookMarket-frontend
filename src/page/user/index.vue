@@ -14,7 +14,7 @@
     </div>
     <div v-if="logged">
       <van-cell-group class="user-group">
-        <van-cell title="Sell" is-link />
+        <van-cell title="Sell" />
 
         <van-row class="user-links">
           <router-link  to="/addSelling">
@@ -38,7 +38,7 @@
         </van-row>
       </van-cell-group>
       <van-cell-group class="user-group">
-        <van-cell title="Orders" value="Check all orders" is-link  />
+        <van-cell title="Orders"/>
         <van-row class="user-links">
           <router-link to="/user/payment">
             <van-col span="6">
