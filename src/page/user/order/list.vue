@@ -19,7 +19,7 @@
                 <p style="color: indianred;text-align: right">total: ￥{{order.totalPrice}}</p>
                 <div class="control-pane">
                     <van-button type="primary" @click="()=>{submitPay(order.orderID)}" size="small">Pay it now</van-button>
-                    <van-button type="danger" size="small">Cancel Order</van-button>
+                    <van-button type="danger" size="small" @click="()=>{cancelOrder(order.orderID)}">Cancel Order</van-button>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  import {reqOrder, reqPayOrder, reqUser} from "../../../api";
+  import {reqCancelOrder, reqOrder, reqPayOrder, reqUser} from "../../../api";
   import store from '../../../store';
   import {BASE_IMG_URL} from "../../../utils/constants";
   import storageUtils from "../../../utils/storageUtils";
@@ -70,6 +70,16 @@
           this.initData();
         }else {
           this.$toast.fail(res.message)
+        }
+      },
+      async cancelOrder(orderID){
+        const request = {data:{orderID}};
+        const result = await reqCancelOrder(request,this);
+        if(result.code ==='200'){
+          this.$toast.success(result.message);
+          this.initData();
+        }else {
+          this.$toast.fail(result.message)
         }
       },
       async onRefresh(){

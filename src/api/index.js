@@ -87,3 +87,6 @@ export const reqBuyerRating = (orderSubID,buyerRating,buyerRatingDesc,that)=>{
 export const reqRating = (userID,that)=>{
     return ajax(BASE_URL+'/api/user/rating.php',{userID},'GET',that);
 }
+export const reqCancelOrder = (orderID,that)=>{
+    return ajax(BASE_URL+'/api/order/order.php',orderID,'DELETE',that)
+}
