@@ -105,6 +105,7 @@
       </van-cell-group>
       <van-cell-group>
         <van-cell title="Switch account" is-link to="/login" />
+        <van-cell title="Logout" is-link @click="handleLogout" />
       </van-cell-group>
 
     </div>
@@ -122,6 +123,7 @@ import {reqLogin} from "../../api";
 import store from '../../store/index'
 import {BASE_IMG_URL} from '../../utils/constants'
 import avatar from '../../assets/images/user_48px.png'
+import storageUtils from "../../utils/storageUtils";
 export default {
   data(){
     return{
@@ -149,6 +151,23 @@ export default {
       this.user = store.state.user
     }
   },
+  methods:{
+    handleLogout(){
+      this.$dialog.confirm({
+        title: 'Logout',
+        message: 'Confirm logout?'
+      }).then(() => {
+        // on confirm
+        console.log("logout")
+        store.commit('removeUser');
+        storageUtils.removeUser();
+        this.$toast.success("Successful Logout");
+        location.reload();
+      }).catch(() => {
+        // on cancel
+      });
+    }
+  }
 
 };
 </script>

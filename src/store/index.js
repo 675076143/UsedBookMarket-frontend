@@ -12,6 +12,9 @@ export default new Vuex.Store({
     setUser(state,user){
       state.user = user
     },
+    removeUser(state){
+      state.user = {};
+    },
     setSchool(state,school){
       state.school = school
     }
