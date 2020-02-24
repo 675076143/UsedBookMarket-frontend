@@ -40,6 +40,8 @@ export default {
         if(result.code ==='200'){
           this.$toast.success('register success')
           this.$router.push("/login")
+        }else {
+          this.$toast.fail(result.message)
         }
       }
   }
