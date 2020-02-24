@@ -102,3 +102,12 @@ export const reqAddAddress = (address,that)=>{
 export const reqDeleteAddress = (address,that)=>{
     return ajax(BASE_URL+'/api/address/address.php',address,'DELETE',that)
 }
+export const reqStars = (userID,bookID,that)=>{
+    return ajax(BASE_URL+'/api/star/star.php',{userID,bookID},'GET',that);
+}
+export const reqAddStar = (userID,bookID,that)=>{
+    return ajax(BASE_URL+'/api/star/star.php',{userID,bookID},'POST',that);
+}
+export const reqDeleteStar = (star,that)=>{
+    return ajax(BASE_URL+'/api/star/star.php',star,'DELETE',that);
+}

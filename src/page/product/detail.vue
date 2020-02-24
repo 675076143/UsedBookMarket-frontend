@@ -22,7 +22,7 @@
       <van-goods-action>
           <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" @click="cs" />
           <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
-          <van-goods-action-icon icon="star-o" text="Star" color="#ff5000" @click="sorry" />
+          <van-goods-action-icon :icon="star?'star':'star-o'" text="Star" color="#ff5000" @click="handleStar" />
           <van-goods-action-button type="warning" text="add to cart" @click="handleAddToCart"/>
           <van-goods-action-button type="danger" text="purchase" @click="showSku"/>
       </van-goods-action>
@@ -31,7 +31,7 @@
 
 <script>
 import skuData from '../../data/sku';
-import {reqAddToCart, reqBookDetails} from "../../api";
+import {reqAddStar, reqAddToCart, reqBookDetails, reqDeleteStar, reqStars} from "../../api";
 import {BASE_IMG_URL} from "../../utils/constants";
 import store from '../../store'
 
@@ -43,12 +43,17 @@ export default {
     console.log('id=>',id)
     const result = await reqBookDetails(id,this)
     if(result.code === '200'){
-      this.book = result.data
-      console.log(this.book)
+      this.book = result.data;
+      // console.log(this.book)
+      // isStar?
+      const {userID} = store.state.user;
+      const resStar = await reqStars(userID,id,this);
+      if(resStar.code ==='200'){
+        this.star = resStar.data;
+      }
     }else {
       console.log(result);
     }
-
   },
   data() {
     this.skuData = skuData;
@@ -61,6 +66,7 @@ export default {
       showCustom: false,
       showStepper: false,
       closeOnClickOverlay: true,
+      star:false
     };
   },
   methods: {
@@ -90,8 +96,23 @@ export default {
     onClickCart() {
       this.$router.push('/cart');
     },
-    sorry() {
-      Toast('暂无后续逻辑~');
+    async handleStar() {
+      const {userID} = store.state.user;
+      const {bookID} = this.book;
+      let result;
+      console.log(this.star);
+      if(this.star){// deleteStar
+        result = await reqDeleteStar({data:{userID,bookID}},this);
+      }else{// star
+        result = await reqAddStar(userID,bookID,this);
+      }
+      if(result.code === '200'){
+        this.$toast.success(result.message)
+      }else {
+        this.$toast.fail(result.message);
+      }
+      this.star = !this.star;
+
     },
     showPromotion() {
         this.show=true;

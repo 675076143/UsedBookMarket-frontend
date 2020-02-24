@@ -95,7 +95,7 @@
               <div>Address</div>
             </van-col>
           </router-link>
-          <router-link  to="/user/favorite" disabled>
+          <router-link  to="/user/favorite">
             <van-col span="6">
               <van-icon name="like-o" />
               <div>Stars</div>
