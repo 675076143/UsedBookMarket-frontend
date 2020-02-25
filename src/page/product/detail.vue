@@ -108,10 +108,10 @@ export default {
       }
       if(result.code === '200'){
         this.$toast.success(result.message)
+        this.star = !this.star;
       }else {
         this.$toast.fail(result.message);
       }
-      this.star = !this.star;
 
     },
     showPromotion() {
