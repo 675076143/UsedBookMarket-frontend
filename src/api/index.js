@@ -48,8 +48,8 @@ export const reqDeleteBookFromShoppingCart = (shoppingCartIdList,that)=>{
 export const reqAddToCart = (bookID,userID,that)=>{
     return ajax(BASE_URL+'/api/shoppingCart/shoppingCart.php',{bookID,userID},'POST',that)
 }
-export const reqSubmitOrder = (bookList,userID,that)=>{
-    return ajax(BASE_URL+'/api/order/order.php',{bookList,userID},'POST',that)
+export const reqSubmitOrder = (bookList,userID,address,that)=>{
+    return ajax(BASE_URL+'/api/order/order.php',{bookList,userID,...address},'POST',that)
 }
 export const reqPayOrder = (orderID,userID,that)=>{
     return ajax(BASE_URL+'/api/order/order.php',{orderID,userID},'PUT',that)

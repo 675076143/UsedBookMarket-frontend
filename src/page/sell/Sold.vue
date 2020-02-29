@@ -13,13 +13,14 @@
                       :desc="item.bookDesc"
                       :title="item.bookName"
                       :thumb="BASE_IMG_URL+item.image">
-                <div slot="footer">
+                <div slot="footer" @click.stop>
                     <van-image
                             round
                             width="30"
                             height="30"
                             :src="BASE_IMG_URL+item.buyerAvatar"
                             style="margin-right: 10px"
+                            @click="showBuyerInfo(item)"
                     />
                     <span>{{item.buyerName}} {{item.orderSubState==="2"||item.orderSubState==="1"?"bought":"received"}} your book</span><br/>
                     <van-button size="mini" type="info" @click="e=>{handleShipped(e,item.orderSubID)}" v-if="item.orderSubState==='1'">Shipped</van-button>
@@ -70,7 +71,17 @@
                 />
                 <van-button type="info" style="width: 100%;" @click="handleSendRate">Rate</van-button>
         </van-popup>
-
+        <van-popup
+                v-model="isShowBuyerInfo"
+                round
+                position="bottom"
+                :style="{ height: '30%' }"
+        >
+            <van-field v-model="buyer.name" label="name" />
+            <van-field v-model="buyer.tel" label="tel" />
+            <van-field v-model="buyer.area" label="area" />
+            <van-field v-model="buyer.address" label="address" />
+        </van-popup>
     </div>
 </template>
 
@@ -91,6 +102,11 @@
   export default {
     name: "Sold",
     methods:{
+      showBuyerInfo(item){
+        const {name,tel,area,address} = item;
+        this.buyer =  {name,tel,area,address};
+        this.isShowBuyerInfo=true;
+      },
       redirect(item){
         this.$router.push(`/product/${item.bookID}`)
       },
@@ -159,6 +175,8 @@
         orderSubID:0,
         ratingDesc:"",
         isLoading:false,
+        isShowBuyerInfo:false,
+        buyer:{}
       }
     },
     async created() {

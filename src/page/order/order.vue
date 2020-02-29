@@ -69,7 +69,7 @@ export default {
       const bookList = [];
       this.initOrderList.map(item=>bookList.push(parseInt(item.bookID)));
       const {userID} = store.state.user;
-      const result = await reqSubmitOrder(bookList,userID,this);
+      const result = await reqSubmitOrder(bookList,userID,this.address,this);
       if(result.code === '200'){
         this.$dialog.confirm({
           title:result.message,
