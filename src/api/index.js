@@ -66,8 +66,8 @@ export const reqUser = (userID,that)=>{
 export const reqSearchBooks = (bookName,categoryID,order,sort,that) =>{
     return ajax(BASE_URL+'/api/book/search.php',{bookName,categoryID,order,sort},'GET',that)
 }
-export const reqMessages = (from,to,that)=>{
-    return ajax(BASE_URL+'/api/message/message.php',{from,to},'GET',that)
+export const reqMessages = (from,to,that,isRead=null)=>{
+    return ajax(BASE_URL+'/api/message/message.php',{from,to,isRead},'GET',that)
 }
 export const reqSendMessage = (from,to,message,that)=>{
     return ajax(BASE_URL+'/api/message/message.php',{from,to,message},'POST',that)

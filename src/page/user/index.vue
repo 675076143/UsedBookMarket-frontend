@@ -1,5 +1,9 @@
 <template>
   <div>
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh"
+                      loading-text="loading..."
+                      loosing-text="release to refresh..."
+                      pulling-text="pull to refresh...">
     <div class="user-profile">
       <div class="user-profile-avatar">
         <router-link  to="/user/info">
@@ -32,7 +36,7 @@
           </router-link>
           <router-link  to="/sold">
             <van-col span="6">
-              <van-icon name="todo-list-o" />
+              <van-icon name="todo-list-o" :info="soldNum?soldNum:null" />
               <div>sold</div>
             </van-col>
           </router-link>
@@ -43,15 +47,13 @@
         <van-row class="user-links">
           <router-link to="/user/payment">
             <van-col span="6">
-              <van-icon name="pending-payment">
-                <van-info :info="UnPayTotal"  />
-              </van-icon>
+              <van-icon name="pending-payment" :info="pendingPaymentNum?pendingPaymentNum:null" />
               <div>Pending payment</div>
             </van-col>
           </router-link>
           <router-link  to="/user/ship">
             <van-col span="6">
-              <van-icon name="logistics">
+              <van-icon name="logistics" :info="shippedNum?shippedNum:null">
               </van-icon>
               <div>To be shipped</div>
             </van-col>
@@ -85,7 +87,7 @@
         <van-row class="user-links">
           <router-link  to="/user/messages">
             <van-col span="6">
-              <van-icon name="chat-o" />
+              <van-icon name="chat-o" :info="unreadNum?unreadNum:null"/>
               <div>Message</div>
             </van-col>
           </router-link>
@@ -104,7 +106,6 @@
         </van-row>
       </van-cell-group>
       <van-cell-group>
-        <van-cell title="Switch account" is-link to="/login" />
         <van-cell title="Logout" is-link @click="handleLogout" />
       </van-cell-group>
 
@@ -112,14 +113,13 @@
     <div v-else>
       <van-cell title="login" is-link to="/login" />
     </div>
-
-
     <navigate />
+    </van-pull-refresh>
   </div>
 </template>
 
 <script>
-import {reqLogin} from "../../api";
+  import {reqLogin, reqMessages, reqOrder, reqSold} from "../../api";
 import store from '../../store/index'
 import {BASE_IMG_URL} from '../../utils/constants'
 import avatar from '../../assets/images/user_48px.png'
@@ -130,7 +130,12 @@ export default {
       logged:false,
       user:{},
       BASE_IMG_URL,
-      avatar
+      avatar,
+      unreadNum:0,
+      pendingPaymentNum:0,
+      shippedNum:0,
+      soldNum:0,
+      isLoading:false
     }
   },
   components: {
@@ -150,12 +155,18 @@ export default {
       console.log(store.state.user)
       this.user = store.state.user
     }
+    this.initInfoNum();
   },
   methods:{
+    onRefresh(){
+      this.initInfoNum();
+    },
     handleLogout(){
       this.$dialog.confirm({
         title: 'Logout',
-        message: 'Confirm logout?'
+        message: 'Confirm logout?',
+        cancelButtonText:'Cancel',
+        confirmButtonText:'Confirm'
       }).then(() => {
         // on confirm
         console.log("logout")
@@ -166,6 +177,22 @@ export default {
       }).catch(() => {
         // on cancel
       });
+    },
+    async initInfoNum(){
+      const {userID} = store.state.user;
+      // get number of unread message
+      let result = await reqMessages(null,userID,this,false);
+      if(result.code==='200') this.unreadNum = parseInt(result.data);
+      // get number of pending payment
+      result = await reqOrder(userID,0,this);
+      if(result.code ==='200') this.pendingPaymentNum = result.data?result.data.length:0;
+      // get number of to be shipped
+      result = await reqOrder(userID,1,this);
+      if(result.code ==='200') this.shippedNum = result.data?result.data.length:0;
+      // get number of sold
+      result = await reqSold(userID,this)
+      if(result.code ==='200') this.soldNum = result.data?result.data.length:0;
+      this.isLoading = false;
     }
   }
 

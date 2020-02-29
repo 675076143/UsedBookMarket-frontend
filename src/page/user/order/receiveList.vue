@@ -47,8 +47,6 @@
         const result = await reqOrder(userID,1,this);
         if(result.code === "200"){
           this.orders = result.data
-          const res = await reqOrder(userID,1,this);
-          if(res.code === "200") this.orders = res.data;
           const resUser = await reqUser(userID,this)
           if(resUser.code==='200'){
             this.user = resUser.data

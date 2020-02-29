@@ -73,7 +73,7 @@
         }
         if(result.code==='200'){
           this.$toast.success(result.message)
-          this.$router.push("/user/address")
+          this.$router.go(-1)
         }
       },
       onDelete(data) {

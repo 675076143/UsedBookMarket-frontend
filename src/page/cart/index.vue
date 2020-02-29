@@ -112,11 +112,9 @@ export default {
           initOrderList.push({...item});
         }
       })
+      store.commit('setOrderList',initOrderList);
       this.$router.push({
         name:'order',
-        params:{
-          initOrderList
-        }
       })
     }
   }

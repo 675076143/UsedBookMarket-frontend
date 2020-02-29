@@ -5,7 +5,7 @@
         <van-tabbar-item replace icon="wap-nav" to="/category" >Category</van-tabbar-item>
 <!--        <van-tabbar-item icon="cart" to="/cart" >ShoppingCart</van-tabbar-item>-->
         <van-tabbar-item replace icon="cart" to="/cart" >ShoppingCart</van-tabbar-item>
-        <van-tabbar-item replace icon="contact" to="/user/index">Profile</van-tabbar-item>
+        <van-tabbar-item replace icon="contact" to="/user/index">Account</van-tabbar-item>
     </van-tabbar>
     </div>
 </template>

@@ -20,7 +20,7 @@
         <div v-html="book.detail"></div>
     </div>
       <van-goods-action>
-          <van-goods-action-icon icon="chat-o" text="CS" color="#07c160" @click="cs" />
+          <van-goods-action-icon icon="manager-o" text="CS" color="#07c160" @click="cs" />
           <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
           <van-goods-action-icon :icon="star?'star':'star-o'" text="Star" color="#ff5000" @click="handleStar" />
           <van-goods-action-button type="warning" text="add to cart" @click="handleAddToCart"/>
@@ -121,11 +121,9 @@ export default {
       const {book} = this;
       const initOrderList = [book];
       this.$router.push({
-        name:'order',
-        params:{
-          initOrderList
-        }
-      })
+        name:'order'
+      });
+      store.commit("setOrderList",initOrderList);
     },
     onClickShowTag(){
         this.showTag=true;

@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user:{},
-    school:""
+    school:"",
+    orderList:[],
   },
   mutations: {
     setUser(state,user){
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     setSchool(state,school){
       state.school = school
+    },
+    setOrderList(state,orderList){
+      state.orderList = orderList;
     }
   },
   actions: {

@@ -9,7 +9,10 @@
                 @click="handleSellerProfile"
         />
         <header-nav title="Communicate Service"/>
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh"
+                          loading-text="loading..."
+                          loosing-text="release to refresh..."
+                          pulling-text="pull to refresh...">
             <van-cell-group>
                 <van-cell v-for="item in messages" :border="false">
                     <div v-if="item.from !== from" class="message-item-from">

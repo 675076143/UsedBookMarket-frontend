@@ -85,6 +85,7 @@ const routes = [
     }
   },
   {
+    name:'address',
     path: '/user/address',
     component: () => import('../page/user/address/list'),
     meta: {

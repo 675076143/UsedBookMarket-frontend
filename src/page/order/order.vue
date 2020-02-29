@@ -51,13 +51,12 @@ import store from '../../store';
 export default {
   data() {
     return {
-      initOrderList: this.$route.params.initOrderList,
+      initOrderList: store.state.orderList,
       BASE_IMG_URL,
       address:{}
     };
   },
   async created() {
-    if(!this.$route.params.initOrderList) this.$router.push("/");
     // get default address
     const {userID} = store.state.user;
     const result = await reqAddresses(userID,this,true);
@@ -75,6 +74,8 @@ export default {
         this.$dialog.confirm({
           title:result.message,
           message:'pay it now?',
+          cancelButtonText:'Cancel',
+          confirmButtonText:'Confirm'
         }).then(async ()=>{
           const res = await reqPayOrder(result.data.orderID,userID,this);
           if(res.code === '200'){
