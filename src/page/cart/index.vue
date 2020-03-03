@@ -64,6 +64,7 @@ export default {
     };
   },
   created() {
+    console.log('created')
     this.initShoppingCart()
   },
   computed: {

@@ -20,7 +20,13 @@
         <div v-html="book.detail"></div>
     </div>
       <van-goods-action>
-          <van-goods-action-icon icon="manager-o" text="CS" color="#07c160" @click="cs" />
+          <van-goods-action-icon icon="manager-o" text="CS" color="#07c160" @click="cs">
+              <van-image
+                      fit="contain"
+                      :src="BASE_IMG_URL+sellerAvatar"
+                      slot="icon"
+              />
+          </van-goods-action-icon>
           <van-goods-action-icon icon="cart-o" text="ShoppingCart" @click="onClickCart"/>
           <van-goods-action-icon :icon="star?'star':'star-o'" text="Star" color="#ff5000" @click="handleStar" />
           <van-goods-action-button type="warning" text="add to cart" @click="handleAddToCart"/>
@@ -31,7 +37,7 @@
 
 <script>
 import skuData from '../../data/sku';
-import {reqAddStar, reqAddToCart, reqBookDetails, reqDeleteStar, reqStars} from "../../api";
+import {reqAddStar, reqAddToCart, reqBookDetails, reqDeleteStar, reqStars, reqUser} from "../../api";
 import {BASE_IMG_URL} from "../../utils/constants";
 import store from '../../store'
 
@@ -51,6 +57,12 @@ export default {
       if(resStar.code ==='200'){
         this.star = resStar.data;
       }
+      // get seller's avatar
+      const resAvatar = await reqUser(result.data.userID,this);
+      if(resAvatar.code==='200'){
+        console.log(resAvatar)
+        this.sellerAvatar = resAvatar.data.avatar;
+      }
     }else {
       console.log(result);
     }
@@ -66,7 +78,8 @@ export default {
       showCustom: false,
       showStepper: false,
       closeOnClickOverlay: true,
-      star:false
+      star:false,
+      sellerAvatar:'admin.jpg'
     };
   },
   methods: {
