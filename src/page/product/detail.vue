@@ -20,7 +20,7 @@
         <div v-html="book.detail"></div>
     </div>
       <van-goods-action>
-          <van-goods-action-icon icon="manager-o" text="CS" color="#07c160" @click="cs">
+          <van-goods-action-icon icon="manager-o" text="Msg" color="#07c160" @click="cs">
               <van-image
                       fit="contain"
                       :src="BASE_IMG_URL+sellerAvatar"
